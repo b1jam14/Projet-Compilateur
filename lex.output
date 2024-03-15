@@ -1,0 +1,1511 @@
+Terminaux inutilisés dans la grammaire
+
+    tERROR
+
+
+Grammaire
+
+    0 $accept: Programme $end
+
+    1 Programme: TypeFonction tMAIN Fonction
+    2          | TypeFonction tID Fonction Programme
+
+    3 TypeFonction: tINT
+    4             | tVOID
+
+    5 Fonction: tLPAR Variables tRPAR tLBRACE Bloc tRBRACE
+
+    6 Bloc: ε
+    7     | Declaration Bloc
+    8     | If Bloc
+    9     | While Bloc
+   10     | Print Bloc
+   11     | Return
+
+   12 Declaration: tINT tID variableunique tSEMI
+   13            | tID variableunique tASSIGN Expression tSEMI
+   14            | tINT tID variableunique tASSIGN Expression tSEMI
+
+   15 variableunique: ε
+   16               | tCOMMA tID variableunique
+
+   17 If: tIF tLPAR Condition tRPAR tLBRACE Bloc tRBRACE Else
+
+   18 Else: ε
+   19     | tELSE tLBRACE Bloc tRBRACE
+
+   20 While: tWHILE tLPAR Condition tRPAR tLBRACE Bloc tRBRACE
+
+   21 Print: tPRINT tLPAR tID tRPAR tSEMI
+
+   22 Return: tRETURN tID tSEMI
+
+   23 Expression: tID
+   24           | tNB
+   25           | tID tLPAR Argument tRPAR
+   26           | Expression tADD Expression
+   27           | Expression tSUB Expression
+   28           | Expression tMUL Expression
+   29           | Expression tDIV Expression
+   30           | tLPAR Expression tRPAR
+
+   31 Argument: ε
+   32         | IDNB ArgumentNext
+
+   33 ArgumentNext: ε
+   34             | tCOMMA Expression ArgumentNext
+
+   35 Condition: IDNB tEQ IDNB ConditionSuite
+   36          | IDNB tNE IDNB ConditionSuite
+   37          | IDNB tLT IDNB ConditionSuite
+   38          | IDNB tGT IDNB ConditionSuite
+   39          | IDNB tLE IDNB ConditionSuite
+   40          | IDNB tGE IDNB ConditionSuite
+   41          | IDNB tAND IDNB ConditionSuite
+   42          | IDNB tOR IDNB ConditionSuite
+   43          | tNOT tID ConditionSuite
+   44          | tNOT tLPAR Condition tRPAR ConditionSuite
+
+   45 IDNB: tID
+   46     | tNB
+
+   47 ConditionSuite: ε
+   48               | tAND Condition
+   49               | tOR Condition
+
+   50 Variables: ε
+   51          | tVOID
+   52          | Variable VariablesNext
+
+   53 VariablesNext: ε
+   54              | tCOMMA Variable VariablesNext
+
+   55 Variable: tINT tID
+
+
+Terminaux, suivis des règles où ils apparaissent
+
+    $end (0) 0
+    error (256)
+    tMAIN (258) 1
+    tINT (259) 3 12 14 55
+    tLPAR (260) 5 17 20 21 25 30 44
+    tVOID (261) 4 51
+    tRPAR (262) 5 17 20 21 25 30 44
+    tERROR (263)
+    tLBRACE (264) 5 17 19 20
+    tRBRACE (265) 5 17 19 20
+    tIF (266) 17
+    tELSE (267) 19
+    tWHILE (268) 20
+    tPRINT (269) 21
+    tRETURN (270) 22
+    tADD (271) 26
+    tSUB (272) 27
+    tMUL (273) 28
+    tDIV (274) 29
+    tLT (275) 37
+    tGT (276) 38
+    tNE (277) 36
+    tEQ (278) 35
+    tLE (279) 39
+    tGE (280) 40
+    tASSIGN (281) 13 14
+    tAND (282) 41 48
+    tOR (283) 42 49
+    tNOT (284) 43 44
+    tSEMI (285) 12 13 14 21 22
+    tCOMMA (286) 16 34 54
+    tNB <nb> (287) 24 46
+    tID <str> (288) 2 12 13 14 16 21 22 23 25 43 45 55
+
+
+Non-terminaux, suivis des règles où ils apparaissent
+
+    $accept (34)
+        à gauche: 0
+    Programme (35)
+        à gauche: 1 2
+        à droite: 0 2
+    TypeFonction (36)
+        à gauche: 3 4
+        à droite: 1 2
+    Fonction (37)
+        à gauche: 5
+        à droite: 1 2
+    Bloc (38)
+        à gauche: 6 7 8 9 10 11
+        à droite: 5 7 8 9 10 17 19 20
+    Declaration (39)
+        à gauche: 12 13 14
+        à droite: 7
+    variableunique (40)
+        à gauche: 15 16
+        à droite: 12 13 14 16
+    If (41)
+        à gauche: 17
+        à droite: 8
+    Else (42)
+        à gauche: 18 19
+        à droite: 17
+    While (43)
+        à gauche: 20
+        à droite: 9
+    Print (44)
+        à gauche: 21
+        à droite: 10
+    Return (45)
+        à gauche: 22
+        à droite: 11
+    Expression (46)
+        à gauche: 23 24 25 26 27 28 29 30
+        à droite: 13 14 26 27 28 29 30 34
+    Argument (47)
+        à gauche: 31 32
+        à droite: 25
+    ArgumentNext (48)
+        à gauche: 33 34
+        à droite: 32 34
+    Condition (49)
+        à gauche: 35 36 37 38 39 40 41 42 43 44
+        à droite: 17 20 44 48 49
+    IDNB (50)
+        à gauche: 45 46
+        à droite: 32 35 36 37 38 39 40 41 42
+    ConditionSuite (51)
+        à gauche: 47 48 49
+        à droite: 35 36 37 38 39 40 41 42 43 44
+    Variables (52)
+        à gauche: 50 51 52
+        à droite: 5
+    VariablesNext (53)
+        à gauche: 53 54
+        à droite: 52 54
+    Variable (54)
+        à gauche: 55
+        à droite: 52 54
+
+
+État 0
+
+    0 $accept: • Programme $end
+
+    tINT   décalage et aller à l'état 1
+    tVOID  décalage et aller à l'état 2
+
+    Programme     aller à l'état 3
+    TypeFonction  aller à l'état 4
+
+
+État 1
+
+    3 TypeFonction: tINT •
+
+    $défaut  réduction par utilisation de la règle 3 (TypeFonction)
+
+
+État 2
+
+    4 TypeFonction: tVOID •
+
+    $défaut  réduction par utilisation de la règle 4 (TypeFonction)
+
+
+État 3
+
+    0 $accept: Programme • $end
+
+    $end  décalage et aller à l'état 5
+
+
+État 4
+
+    1 Programme: TypeFonction • tMAIN Fonction
+    2          | TypeFonction • tID Fonction Programme
+
+    tMAIN  décalage et aller à l'état 6
+    tID    décalage et aller à l'état 7
+
+
+État 5
+
+    0 $accept: Programme $end •
+
+    $défaut  accepter
+
+
+État 6
+
+    1 Programme: TypeFonction tMAIN • Fonction
+
+    tLPAR  décalage et aller à l'état 8
+
+    Fonction  aller à l'état 9
+
+
+État 7
+
+    2 Programme: TypeFonction tID • Fonction Programme
+
+    tLPAR  décalage et aller à l'état 8
+
+    Fonction  aller à l'état 10
+
+
+État 8
+
+    5 Fonction: tLPAR • Variables tRPAR tLBRACE Bloc tRBRACE
+
+    tINT   décalage et aller à l'état 11
+    tVOID  décalage et aller à l'état 12
+
+    $défaut  réduction par utilisation de la règle 50 (Variables)
+
+    Variables  aller à l'état 13
+    Variable   aller à l'état 14
+
+
+État 9
+
+    1 Programme: TypeFonction tMAIN Fonction •
+
+    $défaut  réduction par utilisation de la règle 1 (Programme)
+
+
+État 10
+
+    2 Programme: TypeFonction tID Fonction • Programme
+
+    tINT   décalage et aller à l'état 1
+    tVOID  décalage et aller à l'état 2
+
+    Programme     aller à l'état 15
+    TypeFonction  aller à l'état 4
+
+
+État 11
+
+   55 Variable: tINT • tID
+
+    tID  décalage et aller à l'état 16
+
+
+État 12
+
+   51 Variables: tVOID •
+
+    $défaut  réduction par utilisation de la règle 51 (Variables)
+
+
+État 13
+
+    5 Fonction: tLPAR Variables • tRPAR tLBRACE Bloc tRBRACE
+
+    tRPAR  décalage et aller à l'état 17
+
+
+État 14
+
+   52 Variables: Variable • VariablesNext
+
+    tCOMMA  décalage et aller à l'état 18
+
+    $défaut  réduction par utilisation de la règle 53 (VariablesNext)
+
+    VariablesNext  aller à l'état 19
+
+
+État 15
+
+    2 Programme: TypeFonction tID Fonction Programme •
+
+    $défaut  réduction par utilisation de la règle 2 (Programme)
+
+
+État 16
+
+   55 Variable: tINT tID •
+
+    $défaut  réduction par utilisation de la règle 55 (Variable)
+
+
+État 17
+
+    5 Fonction: tLPAR Variables tRPAR • tLBRACE Bloc tRBRACE
+
+    tLBRACE  décalage et aller à l'état 20
+
+
+État 18
+
+   54 VariablesNext: tCOMMA • Variable VariablesNext
+
+    tINT  décalage et aller à l'état 11
+
+    Variable  aller à l'état 21
+
+
+État 19
+
+   52 Variables: Variable VariablesNext •
+
+    $défaut  réduction par utilisation de la règle 52 (Variables)
+
+
+État 20
+
+    5 Fonction: tLPAR Variables tRPAR tLBRACE • Bloc tRBRACE
+
+    tINT     décalage et aller à l'état 22
+    tIF      décalage et aller à l'état 23
+    tWHILE   décalage et aller à l'état 24
+    tPRINT   décalage et aller à l'état 25
+    tRETURN  décalage et aller à l'état 26
+    tID      décalage et aller à l'état 27
+
+    $défaut  réduction par utilisation de la règle 6 (Bloc)
+
+    Bloc         aller à l'état 28
+    Declaration  aller à l'état 29
+    If           aller à l'état 30
+    While        aller à l'état 31
+    Print        aller à l'état 32
+    Return       aller à l'état 33
+
+
+État 21
+
+   54 VariablesNext: tCOMMA Variable • VariablesNext
+
+    tCOMMA  décalage et aller à l'état 18
+
+    $défaut  réduction par utilisation de la règle 53 (VariablesNext)
+
+    VariablesNext  aller à l'état 34
+
+
+État 22
+
+   12 Declaration: tINT • tID variableunique tSEMI
+   14            | tINT • tID variableunique tASSIGN Expression tSEMI
+
+    tID  décalage et aller à l'état 35
+
+
+État 23
+
+   17 If: tIF • tLPAR Condition tRPAR tLBRACE Bloc tRBRACE Else
+
+    tLPAR  décalage et aller à l'état 36
+
+
+État 24
+
+   20 While: tWHILE • tLPAR Condition tRPAR tLBRACE Bloc tRBRACE
+
+    tLPAR  décalage et aller à l'état 37
+
+
+État 25
+
+   21 Print: tPRINT • tLPAR tID tRPAR tSEMI
+
+    tLPAR  décalage et aller à l'état 38
+
+
+État 26
+
+   22 Return: tRETURN • tID tSEMI
+
+    tID  décalage et aller à l'état 39
+
+
+État 27
+
+   13 Declaration: tID • variableunique tASSIGN Expression tSEMI
+
+    tCOMMA  décalage et aller à l'état 40
+
+    $défaut  réduction par utilisation de la règle 15 (variableunique)
+
+    variableunique  aller à l'état 41
+
+
+État 28
+
+    5 Fonction: tLPAR Variables tRPAR tLBRACE Bloc • tRBRACE
+
+    tRBRACE  décalage et aller à l'état 42
+
+
+État 29
+
+    7 Bloc: Declaration • Bloc
+
+    tINT     décalage et aller à l'état 22
+    tIF      décalage et aller à l'état 23
+    tWHILE   décalage et aller à l'état 24
+    tPRINT   décalage et aller à l'état 25
+    tRETURN  décalage et aller à l'état 26
+    tID      décalage et aller à l'état 27
+
+    $défaut  réduction par utilisation de la règle 6 (Bloc)
+
+    Bloc         aller à l'état 43
+    Declaration  aller à l'état 29
+    If           aller à l'état 30
+    While        aller à l'état 31
+    Print        aller à l'état 32
+    Return       aller à l'état 33
+
+
+État 30
+
+    8 Bloc: If • Bloc
+
+    tINT     décalage et aller à l'état 22
+    tIF      décalage et aller à l'état 23
+    tWHILE   décalage et aller à l'état 24
+    tPRINT   décalage et aller à l'état 25
+    tRETURN  décalage et aller à l'état 26
+    tID      décalage et aller à l'état 27
+
+    $défaut  réduction par utilisation de la règle 6 (Bloc)
+
+    Bloc         aller à l'état 44
+    Declaration  aller à l'état 29
+    If           aller à l'état 30
+    While        aller à l'état 31
+    Print        aller à l'état 32
+    Return       aller à l'état 33
+
+
+État 31
+
+    9 Bloc: While • Bloc
+
+    tINT     décalage et aller à l'état 22
+    tIF      décalage et aller à l'état 23
+    tWHILE   décalage et aller à l'état 24
+    tPRINT   décalage et aller à l'état 25
+    tRETURN  décalage et aller à l'état 26
+    tID      décalage et aller à l'état 27
+
+    $défaut  réduction par utilisation de la règle 6 (Bloc)
+
+    Bloc         aller à l'état 45
+    Declaration  aller à l'état 29
+    If           aller à l'état 30
+    While        aller à l'état 31
+    Print        aller à l'état 32
+    Return       aller à l'état 33
+
+
+État 32
+
+   10 Bloc: Print • Bloc
+
+    tINT     décalage et aller à l'état 22
+    tIF      décalage et aller à l'état 23
+    tWHILE   décalage et aller à l'état 24
+    tPRINT   décalage et aller à l'état 25
+    tRETURN  décalage et aller à l'état 26
+    tID      décalage et aller à l'état 27
+
+    $défaut  réduction par utilisation de la règle 6 (Bloc)
+
+    Bloc         aller à l'état 46
+    Declaration  aller à l'état 29
+    If           aller à l'état 30
+    While        aller à l'état 31
+    Print        aller à l'état 32
+    Return       aller à l'état 33
+
+
+État 33
+
+   11 Bloc: Return •
+
+    $défaut  réduction par utilisation de la règle 11 (Bloc)
+
+
+État 34
+
+   54 VariablesNext: tCOMMA Variable VariablesNext •
+
+    $défaut  réduction par utilisation de la règle 54 (VariablesNext)
+
+
+État 35
+
+   12 Declaration: tINT tID • variableunique tSEMI
+   14            | tINT tID • variableunique tASSIGN Expression tSEMI
+
+    tCOMMA  décalage et aller à l'état 40
+
+    $défaut  réduction par utilisation de la règle 15 (variableunique)
+
+    variableunique  aller à l'état 47
+
+
+État 36
+
+   17 If: tIF tLPAR • Condition tRPAR tLBRACE Bloc tRBRACE Else
+
+    tNOT  décalage et aller à l'état 48
+    tNB   décalage et aller à l'état 49
+    tID   décalage et aller à l'état 50
+
+    Condition  aller à l'état 51
+    IDNB       aller à l'état 52
+
+
+État 37
+
+   20 While: tWHILE tLPAR • Condition tRPAR tLBRACE Bloc tRBRACE
+
+    tNOT  décalage et aller à l'état 48
+    tNB   décalage et aller à l'état 49
+    tID   décalage et aller à l'état 50
+
+    Condition  aller à l'état 53
+    IDNB       aller à l'état 52
+
+
+État 38
+
+   21 Print: tPRINT tLPAR • tID tRPAR tSEMI
+
+    tID  décalage et aller à l'état 54
+
+
+État 39
+
+   22 Return: tRETURN tID • tSEMI
+
+    tSEMI  décalage et aller à l'état 55
+
+
+État 40
+
+   16 variableunique: tCOMMA • tID variableunique
+
+    tID  décalage et aller à l'état 56
+
+
+État 41
+
+   13 Declaration: tID variableunique • tASSIGN Expression tSEMI
+
+    tASSIGN  décalage et aller à l'état 57
+
+
+État 42
+
+    5 Fonction: tLPAR Variables tRPAR tLBRACE Bloc tRBRACE •
+
+    $défaut  réduction par utilisation de la règle 5 (Fonction)
+
+
+État 43
+
+    7 Bloc: Declaration Bloc •
+
+    $défaut  réduction par utilisation de la règle 7 (Bloc)
+
+
+État 44
+
+    8 Bloc: If Bloc •
+
+    $défaut  réduction par utilisation de la règle 8 (Bloc)
+
+
+État 45
+
+    9 Bloc: While Bloc •
+
+    $défaut  réduction par utilisation de la règle 9 (Bloc)
+
+
+État 46
+
+   10 Bloc: Print Bloc •
+
+    $défaut  réduction par utilisation de la règle 10 (Bloc)
+
+
+État 47
+
+   12 Declaration: tINT tID variableunique • tSEMI
+   14            | tINT tID variableunique • tASSIGN Expression tSEMI
+
+    tASSIGN  décalage et aller à l'état 58
+    tSEMI    décalage et aller à l'état 59
+
+
+État 48
+
+   43 Condition: tNOT • tID ConditionSuite
+   44          | tNOT • tLPAR Condition tRPAR ConditionSuite
+
+    tLPAR  décalage et aller à l'état 60
+    tID    décalage et aller à l'état 61
+
+
+État 49
+
+   46 IDNB: tNB •
+
+    $défaut  réduction par utilisation de la règle 46 (IDNB)
+
+
+État 50
+
+   45 IDNB: tID •
+
+    $défaut  réduction par utilisation de la règle 45 (IDNB)
+
+
+État 51
+
+   17 If: tIF tLPAR Condition • tRPAR tLBRACE Bloc tRBRACE Else
+
+    tRPAR  décalage et aller à l'état 62
+
+
+État 52
+
+   35 Condition: IDNB • tEQ IDNB ConditionSuite
+   36          | IDNB • tNE IDNB ConditionSuite
+   37          | IDNB • tLT IDNB ConditionSuite
+   38          | IDNB • tGT IDNB ConditionSuite
+   39          | IDNB • tLE IDNB ConditionSuite
+   40          | IDNB • tGE IDNB ConditionSuite
+   41          | IDNB • tAND IDNB ConditionSuite
+   42          | IDNB • tOR IDNB ConditionSuite
+
+    tLT   décalage et aller à l'état 63
+    tGT   décalage et aller à l'état 64
+    tNE   décalage et aller à l'état 65
+    tEQ   décalage et aller à l'état 66
+    tLE   décalage et aller à l'état 67
+    tGE   décalage et aller à l'état 68
+    tAND  décalage et aller à l'état 69
+    tOR   décalage et aller à l'état 70
+
+
+État 53
+
+   20 While: tWHILE tLPAR Condition • tRPAR tLBRACE Bloc tRBRACE
+
+    tRPAR  décalage et aller à l'état 71
+
+
+État 54
+
+   21 Print: tPRINT tLPAR tID • tRPAR tSEMI
+
+    tRPAR  décalage et aller à l'état 72
+
+
+État 55
+
+   22 Return: tRETURN tID tSEMI •
+
+    $défaut  réduction par utilisation de la règle 22 (Return)
+
+
+État 56
+
+   16 variableunique: tCOMMA tID • variableunique
+
+    tCOMMA  décalage et aller à l'état 40
+
+    $défaut  réduction par utilisation de la règle 15 (variableunique)
+
+    variableunique  aller à l'état 73
+
+
+État 57
+
+   13 Declaration: tID variableunique tASSIGN • Expression tSEMI
+
+    tLPAR  décalage et aller à l'état 74
+    tNB    décalage et aller à l'état 75
+    tID    décalage et aller à l'état 76
+
+    Expression  aller à l'état 77
+
+
+État 58
+
+   14 Declaration: tINT tID variableunique tASSIGN • Expression tSEMI
+
+    tLPAR  décalage et aller à l'état 74
+    tNB    décalage et aller à l'état 75
+    tID    décalage et aller à l'état 76
+
+    Expression  aller à l'état 78
+
+
+État 59
+
+   12 Declaration: tINT tID variableunique tSEMI •
+
+    $défaut  réduction par utilisation de la règle 12 (Declaration)
+
+
+État 60
+
+   44 Condition: tNOT tLPAR • Condition tRPAR ConditionSuite
+
+    tNOT  décalage et aller à l'état 48
+    tNB   décalage et aller à l'état 49
+    tID   décalage et aller à l'état 50
+
+    Condition  aller à l'état 79
+    IDNB       aller à l'état 52
+
+
+État 61
+
+   43 Condition: tNOT tID • ConditionSuite
+
+    tAND  décalage et aller à l'état 80
+    tOR   décalage et aller à l'état 81
+
+    $défaut  réduction par utilisation de la règle 47 (ConditionSuite)
+
+    ConditionSuite  aller à l'état 82
+
+
+État 62
+
+   17 If: tIF tLPAR Condition tRPAR • tLBRACE Bloc tRBRACE Else
+
+    tLBRACE  décalage et aller à l'état 83
+
+
+État 63
+
+   37 Condition: IDNB tLT • IDNB ConditionSuite
+
+    tNB  décalage et aller à l'état 49
+    tID  décalage et aller à l'état 50
+
+    IDNB  aller à l'état 84
+
+
+État 64
+
+   38 Condition: IDNB tGT • IDNB ConditionSuite
+
+    tNB  décalage et aller à l'état 49
+    tID  décalage et aller à l'état 50
+
+    IDNB  aller à l'état 85
+
+
+État 65
+
+   36 Condition: IDNB tNE • IDNB ConditionSuite
+
+    tNB  décalage et aller à l'état 49
+    tID  décalage et aller à l'état 50
+
+    IDNB  aller à l'état 86
+
+
+État 66
+
+   35 Condition: IDNB tEQ • IDNB ConditionSuite
+
+    tNB  décalage et aller à l'état 49
+    tID  décalage et aller à l'état 50
+
+    IDNB  aller à l'état 87
+
+
+État 67
+
+   39 Condition: IDNB tLE • IDNB ConditionSuite
+
+    tNB  décalage et aller à l'état 49
+    tID  décalage et aller à l'état 50
+
+    IDNB  aller à l'état 88
+
+
+État 68
+
+   40 Condition: IDNB tGE • IDNB ConditionSuite
+
+    tNB  décalage et aller à l'état 49
+    tID  décalage et aller à l'état 50
+
+    IDNB  aller à l'état 89
+
+
+État 69
+
+   41 Condition: IDNB tAND • IDNB ConditionSuite
+
+    tNB  décalage et aller à l'état 49
+    tID  décalage et aller à l'état 50
+
+    IDNB  aller à l'état 90
+
+
+État 70
+
+   42 Condition: IDNB tOR • IDNB ConditionSuite
+
+    tNB  décalage et aller à l'état 49
+    tID  décalage et aller à l'état 50
+
+    IDNB  aller à l'état 91
+
+
+État 71
+
+   20 While: tWHILE tLPAR Condition tRPAR • tLBRACE Bloc tRBRACE
+
+    tLBRACE  décalage et aller à l'état 92
+
+
+État 72
+
+   21 Print: tPRINT tLPAR tID tRPAR • tSEMI
+
+    tSEMI  décalage et aller à l'état 93
+
+
+État 73
+
+   16 variableunique: tCOMMA tID variableunique •
+
+    $défaut  réduction par utilisation de la règle 16 (variableunique)
+
+
+État 74
+
+   30 Expression: tLPAR • Expression tRPAR
+
+    tLPAR  décalage et aller à l'état 74
+    tNB    décalage et aller à l'état 75
+    tID    décalage et aller à l'état 76
+
+    Expression  aller à l'état 94
+
+
+État 75
+
+   24 Expression: tNB •
+
+    $défaut  réduction par utilisation de la règle 24 (Expression)
+
+
+État 76
+
+   23 Expression: tID •
+   25           | tID • tLPAR Argument tRPAR
+
+    tLPAR  décalage et aller à l'état 95
+
+    $défaut  réduction par utilisation de la règle 23 (Expression)
+
+
+État 77
+
+   13 Declaration: tID variableunique tASSIGN Expression • tSEMI
+   26 Expression: Expression • tADD Expression
+   27           | Expression • tSUB Expression
+   28           | Expression • tMUL Expression
+   29           | Expression • tDIV Expression
+
+    tADD   décalage et aller à l'état 96
+    tSUB   décalage et aller à l'état 97
+    tMUL   décalage et aller à l'état 98
+    tDIV   décalage et aller à l'état 99
+    tSEMI  décalage et aller à l'état 100
+
+
+État 78
+
+   14 Declaration: tINT tID variableunique tASSIGN Expression • tSEMI
+   26 Expression: Expression • tADD Expression
+   27           | Expression • tSUB Expression
+   28           | Expression • tMUL Expression
+   29           | Expression • tDIV Expression
+
+    tADD   décalage et aller à l'état 96
+    tSUB   décalage et aller à l'état 97
+    tMUL   décalage et aller à l'état 98
+    tDIV   décalage et aller à l'état 99
+    tSEMI  décalage et aller à l'état 101
+
+
+État 79
+
+   44 Condition: tNOT tLPAR Condition • tRPAR ConditionSuite
+
+    tRPAR  décalage et aller à l'état 102
+
+
+État 80
+
+   48 ConditionSuite: tAND • Condition
+
+    tNOT  décalage et aller à l'état 48
+    tNB   décalage et aller à l'état 49
+    tID   décalage et aller à l'état 50
+
+    Condition  aller à l'état 103
+    IDNB       aller à l'état 52
+
+
+État 81
+
+   49 ConditionSuite: tOR • Condition
+
+    tNOT  décalage et aller à l'état 48
+    tNB   décalage et aller à l'état 49
+    tID   décalage et aller à l'état 50
+
+    Condition  aller à l'état 104
+    IDNB       aller à l'état 52
+
+
+État 82
+
+   43 Condition: tNOT tID ConditionSuite •
+
+    $défaut  réduction par utilisation de la règle 43 (Condition)
+
+
+État 83
+
+   17 If: tIF tLPAR Condition tRPAR tLBRACE • Bloc tRBRACE Else
+
+    tINT     décalage et aller à l'état 22
+    tIF      décalage et aller à l'état 23
+    tWHILE   décalage et aller à l'état 24
+    tPRINT   décalage et aller à l'état 25
+    tRETURN  décalage et aller à l'état 26
+    tID      décalage et aller à l'état 27
+
+    $défaut  réduction par utilisation de la règle 6 (Bloc)
+
+    Bloc         aller à l'état 105
+    Declaration  aller à l'état 29
+    If           aller à l'état 30
+    While        aller à l'état 31
+    Print        aller à l'état 32
+    Return       aller à l'état 33
+
+
+État 84
+
+   37 Condition: IDNB tLT IDNB • ConditionSuite
+
+    tAND  décalage et aller à l'état 80
+    tOR   décalage et aller à l'état 81
+
+    $défaut  réduction par utilisation de la règle 47 (ConditionSuite)
+
+    ConditionSuite  aller à l'état 106
+
+
+État 85
+
+   38 Condition: IDNB tGT IDNB • ConditionSuite
+
+    tAND  décalage et aller à l'état 80
+    tOR   décalage et aller à l'état 81
+
+    $défaut  réduction par utilisation de la règle 47 (ConditionSuite)
+
+    ConditionSuite  aller à l'état 107
+
+
+État 86
+
+   36 Condition: IDNB tNE IDNB • ConditionSuite
+
+    tAND  décalage et aller à l'état 80
+    tOR   décalage et aller à l'état 81
+
+    $défaut  réduction par utilisation de la règle 47 (ConditionSuite)
+
+    ConditionSuite  aller à l'état 108
+
+
+État 87
+
+   35 Condition: IDNB tEQ IDNB • ConditionSuite
+
+    tAND  décalage et aller à l'état 80
+    tOR   décalage et aller à l'état 81
+
+    $défaut  réduction par utilisation de la règle 47 (ConditionSuite)
+
+    ConditionSuite  aller à l'état 109
+
+
+État 88
+
+   39 Condition: IDNB tLE IDNB • ConditionSuite
+
+    tAND  décalage et aller à l'état 80
+    tOR   décalage et aller à l'état 81
+
+    $défaut  réduction par utilisation de la règle 47 (ConditionSuite)
+
+    ConditionSuite  aller à l'état 110
+
+
+État 89
+
+   40 Condition: IDNB tGE IDNB • ConditionSuite
+
+    tAND  décalage et aller à l'état 80
+    tOR   décalage et aller à l'état 81
+
+    $défaut  réduction par utilisation de la règle 47 (ConditionSuite)
+
+    ConditionSuite  aller à l'état 111
+
+
+État 90
+
+   41 Condition: IDNB tAND IDNB • ConditionSuite
+
+    tAND  décalage et aller à l'état 80
+    tOR   décalage et aller à l'état 81
+
+    $défaut  réduction par utilisation de la règle 47 (ConditionSuite)
+
+    ConditionSuite  aller à l'état 112
+
+
+État 91
+
+   42 Condition: IDNB tOR IDNB • ConditionSuite
+
+    tAND  décalage et aller à l'état 80
+    tOR   décalage et aller à l'état 81
+
+    $défaut  réduction par utilisation de la règle 47 (ConditionSuite)
+
+    ConditionSuite  aller à l'état 113
+
+
+État 92
+
+   20 While: tWHILE tLPAR Condition tRPAR tLBRACE • Bloc tRBRACE
+
+    tINT     décalage et aller à l'état 22
+    tIF      décalage et aller à l'état 23
+    tWHILE   décalage et aller à l'état 24
+    tPRINT   décalage et aller à l'état 25
+    tRETURN  décalage et aller à l'état 26
+    tID      décalage et aller à l'état 27
+
+    $défaut  réduction par utilisation de la règle 6 (Bloc)
+
+    Bloc         aller à l'état 114
+    Declaration  aller à l'état 29
+    If           aller à l'état 30
+    While        aller à l'état 31
+    Print        aller à l'état 32
+    Return       aller à l'état 33
+
+
+État 93
+
+   21 Print: tPRINT tLPAR tID tRPAR tSEMI •
+
+    $défaut  réduction par utilisation de la règle 21 (Print)
+
+
+État 94
+
+   26 Expression: Expression • tADD Expression
+   27           | Expression • tSUB Expression
+   28           | Expression • tMUL Expression
+   29           | Expression • tDIV Expression
+   30           | tLPAR Expression • tRPAR
+
+    tRPAR  décalage et aller à l'état 115
+    tADD   décalage et aller à l'état 96
+    tSUB   décalage et aller à l'état 97
+    tMUL   décalage et aller à l'état 98
+    tDIV   décalage et aller à l'état 99
+
+
+État 95
+
+   25 Expression: tID tLPAR • Argument tRPAR
+
+    tNB  décalage et aller à l'état 49
+    tID  décalage et aller à l'état 50
+
+    $défaut  réduction par utilisation de la règle 31 (Argument)
+
+    Argument  aller à l'état 116
+    IDNB      aller à l'état 117
+
+
+État 96
+
+   26 Expression: Expression tADD • Expression
+
+    tLPAR  décalage et aller à l'état 74
+    tNB    décalage et aller à l'état 75
+    tID    décalage et aller à l'état 76
+
+    Expression  aller à l'état 118
+
+
+État 97
+
+   27 Expression: Expression tSUB • Expression
+
+    tLPAR  décalage et aller à l'état 74
+    tNB    décalage et aller à l'état 75
+    tID    décalage et aller à l'état 76
+
+    Expression  aller à l'état 119
+
+
+État 98
+
+   28 Expression: Expression tMUL • Expression
+
+    tLPAR  décalage et aller à l'état 74
+    tNB    décalage et aller à l'état 75
+    tID    décalage et aller à l'état 76
+
+    Expression  aller à l'état 120
+
+
+État 99
+
+   29 Expression: Expression tDIV • Expression
+
+    tLPAR  décalage et aller à l'état 74
+    tNB    décalage et aller à l'état 75
+    tID    décalage et aller à l'état 76
+
+    Expression  aller à l'état 121
+
+
+État 100
+
+   13 Declaration: tID variableunique tASSIGN Expression tSEMI •
+
+    $défaut  réduction par utilisation de la règle 13 (Declaration)
+
+
+État 101
+
+   14 Declaration: tINT tID variableunique tASSIGN Expression tSEMI •
+
+    $défaut  réduction par utilisation de la règle 14 (Declaration)
+
+
+État 102
+
+   44 Condition: tNOT tLPAR Condition tRPAR • ConditionSuite
+
+    tAND  décalage et aller à l'état 80
+    tOR   décalage et aller à l'état 81
+
+    $défaut  réduction par utilisation de la règle 47 (ConditionSuite)
+
+    ConditionSuite  aller à l'état 122
+
+
+État 103
+
+   48 ConditionSuite: tAND Condition •
+
+    $défaut  réduction par utilisation de la règle 48 (ConditionSuite)
+
+
+État 104
+
+   49 ConditionSuite: tOR Condition •
+
+    $défaut  réduction par utilisation de la règle 49 (ConditionSuite)
+
+
+État 105
+
+   17 If: tIF tLPAR Condition tRPAR tLBRACE Bloc • tRBRACE Else
+
+    tRBRACE  décalage et aller à l'état 123
+
+
+État 106
+
+   37 Condition: IDNB tLT IDNB ConditionSuite •
+
+    $défaut  réduction par utilisation de la règle 37 (Condition)
+
+
+État 107
+
+   38 Condition: IDNB tGT IDNB ConditionSuite •
+
+    $défaut  réduction par utilisation de la règle 38 (Condition)
+
+
+État 108
+
+   36 Condition: IDNB tNE IDNB ConditionSuite •
+
+    $défaut  réduction par utilisation de la règle 36 (Condition)
+
+
+État 109
+
+   35 Condition: IDNB tEQ IDNB ConditionSuite •
+
+    $défaut  réduction par utilisation de la règle 35 (Condition)
+
+
+État 110
+
+   39 Condition: IDNB tLE IDNB ConditionSuite •
+
+    $défaut  réduction par utilisation de la règle 39 (Condition)
+
+
+État 111
+
+   40 Condition: IDNB tGE IDNB ConditionSuite •
+
+    $défaut  réduction par utilisation de la règle 40 (Condition)
+
+
+État 112
+
+   41 Condition: IDNB tAND IDNB ConditionSuite •
+
+    $défaut  réduction par utilisation de la règle 41 (Condition)
+
+
+État 113
+
+   42 Condition: IDNB tOR IDNB ConditionSuite •
+
+    $défaut  réduction par utilisation de la règle 42 (Condition)
+
+
+État 114
+
+   20 While: tWHILE tLPAR Condition tRPAR tLBRACE Bloc • tRBRACE
+
+    tRBRACE  décalage et aller à l'état 124
+
+
+État 115
+
+   30 Expression: tLPAR Expression tRPAR •
+
+    $défaut  réduction par utilisation de la règle 30 (Expression)
+
+
+État 116
+
+   25 Expression: tID tLPAR Argument • tRPAR
+
+    tRPAR  décalage et aller à l'état 125
+
+
+État 117
+
+   32 Argument: IDNB • ArgumentNext
+
+    tCOMMA  décalage et aller à l'état 126
+
+    $défaut  réduction par utilisation de la règle 33 (ArgumentNext)
+
+    ArgumentNext  aller à l'état 127
+
+
+État 118
+
+   26 Expression: Expression • tADD Expression
+   26           | Expression tADD Expression •
+   27           | Expression • tSUB Expression
+   28           | Expression • tMUL Expression
+   29           | Expression • tDIV Expression
+
+    tMUL  décalage et aller à l'état 98
+    tDIV  décalage et aller à l'état 99
+
+    $défaut  réduction par utilisation de la règle 26 (Expression)
+
+
+État 119
+
+   26 Expression: Expression • tADD Expression
+   27           | Expression • tSUB Expression
+   27           | Expression tSUB Expression •
+   28           | Expression • tMUL Expression
+   29           | Expression • tDIV Expression
+
+    tMUL  décalage et aller à l'état 98
+    tDIV  décalage et aller à l'état 99
+
+    $défaut  réduction par utilisation de la règle 27 (Expression)
+
+
+État 120
+
+   26 Expression: Expression • tADD Expression
+   27           | Expression • tSUB Expression
+   28           | Expression • tMUL Expression
+   28           | Expression tMUL Expression •
+   29           | Expression • tDIV Expression
+
+    $défaut  réduction par utilisation de la règle 28 (Expression)
+
+
+État 121
+
+   26 Expression: Expression • tADD Expression
+   27           | Expression • tSUB Expression
+   28           | Expression • tMUL Expression
+   29           | Expression • tDIV Expression
+   29           | Expression tDIV Expression •
+
+    $défaut  réduction par utilisation de la règle 29 (Expression)
+
+
+État 122
+
+   44 Condition: tNOT tLPAR Condition tRPAR ConditionSuite •
+
+    $défaut  réduction par utilisation de la règle 44 (Condition)
+
+
+État 123
+
+   17 If: tIF tLPAR Condition tRPAR tLBRACE Bloc tRBRACE • Else
+
+    tELSE  décalage et aller à l'état 128
+
+    $défaut  réduction par utilisation de la règle 18 (Else)
+
+    Else  aller à l'état 129
+
+
+État 124
+
+   20 While: tWHILE tLPAR Condition tRPAR tLBRACE Bloc tRBRACE •
+
+    $défaut  réduction par utilisation de la règle 20 (While)
+
+
+État 125
+
+   25 Expression: tID tLPAR Argument tRPAR •
+
+    $défaut  réduction par utilisation de la règle 25 (Expression)
+
+
+État 126
+
+   34 ArgumentNext: tCOMMA • Expression ArgumentNext
+
+    tLPAR  décalage et aller à l'état 74
+    tNB    décalage et aller à l'état 75
+    tID    décalage et aller à l'état 76
+
+    Expression  aller à l'état 130
+
+
+État 127
+
+   32 Argument: IDNB ArgumentNext •
+
+    $défaut  réduction par utilisation de la règle 32 (Argument)
+
+
+État 128
+
+   19 Else: tELSE • tLBRACE Bloc tRBRACE
+
+    tLBRACE  décalage et aller à l'état 131
+
+
+État 129
+
+   17 If: tIF tLPAR Condition tRPAR tLBRACE Bloc tRBRACE Else •
+
+    $défaut  réduction par utilisation de la règle 17 (If)
+
+
+État 130
+
+   26 Expression: Expression • tADD Expression
+   27           | Expression • tSUB Expression
+   28           | Expression • tMUL Expression
+   29           | Expression • tDIV Expression
+   34 ArgumentNext: tCOMMA Expression • ArgumentNext
+
+    tADD    décalage et aller à l'état 96
+    tSUB    décalage et aller à l'état 97
+    tMUL    décalage et aller à l'état 98
+    tDIV    décalage et aller à l'état 99
+    tCOMMA  décalage et aller à l'état 126
+
+    $défaut  réduction par utilisation de la règle 33 (ArgumentNext)
+
+    ArgumentNext  aller à l'état 132
+
+
+État 131
+
+   19 Else: tELSE tLBRACE • Bloc tRBRACE
+
+    tINT     décalage et aller à l'état 22
+    tIF      décalage et aller à l'état 23
+    tWHILE   décalage et aller à l'état 24
+    tPRINT   décalage et aller à l'état 25
+    tRETURN  décalage et aller à l'état 26
+    tID      décalage et aller à l'état 27
+
+    $défaut  réduction par utilisation de la règle 6 (Bloc)
+
+    Bloc         aller à l'état 133
+    Declaration  aller à l'état 29
+    If           aller à l'état 30
+    While        aller à l'état 31
+    Print        aller à l'état 32
+    Return       aller à l'état 33
+
+
+État 132
+
+   34 ArgumentNext: tCOMMA Expression ArgumentNext •
+
+    $défaut  réduction par utilisation de la règle 34 (ArgumentNext)
+
+
+État 133
+
+   19 Else: tELSE tLBRACE Bloc • tRBRACE
+
+    tRBRACE  décalage et aller à l'état 134
+
+
+État 134
+
+   19 Else: tELSE tLBRACE Bloc tRBRACE •
+
+    $défaut  réduction par utilisation de la règle 19 (Else)
