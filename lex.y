@@ -1,3 +1,5 @@
+/* Benjamin Zolver & Alan Dutems */
+
 %{
 #include <stdlib.h>
 #include <stdio.h>
