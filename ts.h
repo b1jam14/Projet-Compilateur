@@ -5,5 +5,6 @@ typedef struct {
     int value;
 } Symbol;
 
-void addSymbol(const char* name, int value);
-int findSymbol(const char* name);
+void addSymbol(const char* name, int type);
+
+int getSymbol(const char* name) ;

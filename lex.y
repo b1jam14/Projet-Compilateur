@@ -1,5 +1,3 @@
-/* Benjamin Zolver & Alan Dutems */
-
 %{
 #include <stdlib.h>
 #include <stdio.h>
@@ -21,8 +19,8 @@
 %%
 
 Programme:
-  TypeFonction tMAIN Fonction
-  |TypeFonction tID Fonction Programme
+  TypeFonction tMAIN Fonction 
+  |TypeFonction tID Fonction Programme 
 ;
 
 TypeFonction:
@@ -32,6 +30,21 @@ TypeFonction:
 
 Fonction:
   tLPAR Variables tRPAR tLBRACE Bloc tRBRACE 
+;
+
+Variables:
+  %empty
+  |tVOID
+  |Variable VariablesNext 
+  ;
+
+VariablesNext:
+  %empty
+  |tCOMMA Variable VariablesNext
+;
+
+Variable :
+  tINT tID
 ;
 
 Bloc:
@@ -44,14 +57,14 @@ Bloc:
 ;
 
 Declaration:
-  tINT tID variableunique tSEMI
-  |tID variableunique tASSIGN Expression tSEMI
-  |tINT tID variableunique tASSIGN Expression tSEMI
+  tINT tID variableunique tSEMI 
+  |tID variableunique tASSIGN Expression tSEMI {addSymbol($4)}
+  |tINT tID variableunique tASSIGN Expression tSEMI {addSymbol($4)}
 ;
 
 variableunique:
   %empty
-  |tCOMMA tID variableunique
+  |tCOMMA tID variableunique {if(getSymbol($2)==-1){addSymbol($2, 1);}}
 ;
 
 If:
@@ -117,21 +130,6 @@ ConditionSuite:
   %empty
   |tAND Condition
   |tOR Condition
-;
-
-Variables:
-  %empty
-  |tVOID
-  |Variable VariablesNext 
-  ;
-
-VariablesNext:
-  %empty
-  |tCOMMA Variable VariablesNext
-;
-
-Variable :
-  tINT tID
 ;
 
 %%
