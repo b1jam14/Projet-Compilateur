@@ -70,7 +70,7 @@ void deleteSymbolScope(){
         if (symbolTable[i].depth == depth) {
             printf("Symbol %s deleted from the table.\n", symbolTable[i].name);
             for (int j = i; j < symbolCount - 1; j++) {
-                strcpy(symbolTable[j].name, symbolTable[j + 1].name);
+                strcpy(symbolTable[j].name, symbolTable[j + 1].name); 
                 symbolTable[j].depth = symbolTable[j + 1].depth;
             }
             symbolCount--;
