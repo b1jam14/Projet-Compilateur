@@ -1,0 +1,22 @@
+Gramatical analysis
+Symbol a added to the table.
+Symbol d added to the table.
+Symbol b added to the table.
+Symbol c added to the table.
+--------------
+|    Name    | 
+--------------
+| a          |
+| d          |
+| b          |
+| c          |
+--------------
+Symbol table flushed.
+Symbol a added to the table.
+Symbol b added to the table.
+--------------
+|    Name    | 
+--------------
+| a          |
+| b          |
+--------------

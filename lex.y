@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "lex.tab.h"
+#include "ts.h"
 %}
 
 %code provides {
@@ -20,7 +21,7 @@
 
 Programme:
   TypeFonction tMAIN Fonction 
-  |TypeFonction tID Fonction Programme 
+  |TypeFonction tID Fonction {printTable();flushTable();} Programme 
 ;
 
 TypeFonction:
@@ -40,31 +41,35 @@ Variables:
 
 VariablesNext:
   %empty
-  |tCOMMA Variable VariablesNext
+  |tCOMMA Variable VariablesNext 
 ;
 
 Variable :
-  tINT tID
+  tINT tID {addSymbol($2);}
 ;
 
 Bloc:
   %empty
   |Declaration Bloc
+  |Affectation Bloc
   |If Bloc
   |While Bloc
   |Print Bloc
   |Return
 ;
-
-Declaration:
-  tINT tID variableunique tSEMI 
-  |tID variableunique tASSIGN Expression tSEMI {addSymbol($4)}
-  |tINT tID variableunique tASSIGN Expression tSEMI {addSymbol($4)}
+ 
+Affectation:
+  tID tASSIGN Expression tSEMI
 ;
 
-variableunique:
-  %empty
-  |tCOMMA tID variableunique {if(getSymbol($2)==-1){addSymbol($2, 1);}}
+Declaration:
+  tINT VariableDeclaration tSEMI
+  |tINT VariableDeclaration tASSIGN Expression tSEMI
+;
+
+VariableDeclaration:
+  tID {addSymbol($1);}
+  |tID tCOMMA {addSymbol($1);} VariableDeclaration 
 ;
 
 If:
@@ -171,10 +176,10 @@ Fonction:
 
 void yyerror(const char *s) { fprintf(stderr, "%s\n", s); exit(1);}
 
-
 int main(void) {
   yydebug = 1;
   printf("Gramatical analysis\n"); // yydebug=1;
   yyparse();
+  printTable();
   return 0;
 }
