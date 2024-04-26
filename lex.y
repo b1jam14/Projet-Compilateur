@@ -21,7 +21,7 @@
 
 Programme:
   TypeFonction tMAIN Fonction 
-  |TypeFonction tID Fonction {printTable();flushTable();} Programme 
+  |TypeFonction tID Fonction Programme 
 ;
 
 TypeFonction:
@@ -30,7 +30,7 @@ TypeFonction:
 ;
 
 Fonction:
-  tLPAR Variables tRPAR tLBRACE Bloc tRBRACE 
+  {increaseDepth();} tLPAR Variables tRPAR tLBRACE Bloc tRBRACE {printTable();deleteSymbolScope();decreaseDepth();}
 ;
 
 Variables:
@@ -73,16 +73,16 @@ VariableDeclaration:
 ;
 
 If:
-  tIF tLPAR Condition tRPAR tLBRACE Bloc tRBRACE Else
+  tIF tLPAR Condition tRPAR tLBRACE {increaseDepth();} Bloc {printTable();deleteSymbolScope();decreaseDepth();}tRBRACE Else
 ;
 
 Else:
   %empty
-  |tELSE tLBRACE Bloc tRBRACE
+  |tELSE tLBRACE {increaseDepth();} Bloc {printTable();deleteSymbolScope();decreaseDepth();} tRBRACE
 ;
 
 While:
-  tWHILE tLPAR Condition tRPAR tLBRACE Bloc tRBRACE 
+  tWHILE tLPAR Condition tRPAR tLBRACE {increaseDepth();} Bloc {printTable();deleteSymbolScope();decreaseDepth();} tRBRACE 
 ;
 
 Print:
@@ -180,6 +180,5 @@ int main(void) {
   yydebug = 1;
   printf("Gramatical analysis\n"); // yydebug=1;
   yyparse();
-  printTable();
   return 0;
 }

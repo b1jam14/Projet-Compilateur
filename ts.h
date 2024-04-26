@@ -7,9 +7,17 @@ typedef struct {
 
 void addSymbol(const char* name);
 
+void increaseDepth();
+
+void decreaseDepth();
+
+int getDepth();
+
 int getSymbol(const char* name) ;
 
 void deleteSymbol(const char* name);
+
+void deleteSymbolScope();
 
 void flushTable();
 

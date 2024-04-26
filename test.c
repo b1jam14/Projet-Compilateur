@@ -5,7 +5,6 @@ int compute(int a, int d) {
     b = a;
 
     while (c > 0) {
-
       b = b + a * 4;
 
     }
@@ -14,13 +13,12 @@ int compute(int a, int d) {
 
 }
 
-
 void main(void) {
 
   int a;
 
   if (a == 3) {
-
+    int c;
     print(a);
 
   } else {
@@ -30,5 +28,4 @@ void main(void) {
     print(b);
 
   }
-
 }
