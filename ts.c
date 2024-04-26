@@ -35,6 +35,18 @@ int getSymbol(const char* name) {
     return -1;
 }
 
+void deleteSymbol(const char* name) {
+    for (int i = 0; i < symbolCount; i++) {
+        if (strcmp(symbolTable[i].name, name) == 0) {
+            for (int j = i; j < symbolCount - 1; j++) {
+                strcpy(symbolTable[j].name, symbolTable[j + 1].name);
+            }
+            symbolCount--;
+            printf("Symbol %s deleted from the table.\n", name);
+        }
+    }
+}
+
 void flushTable() {
     symbolCount = 0;
     printf("Symbol table flushed.\n");
@@ -48,4 +60,10 @@ void printTable() {
         printf("| %-10s |\n", symbolTable[i].name);
     }
     printf("--------------\n");
+}
+
+void writeASM(FILE* file,char* instruction, int var1Address, int var2Address, int resultAddress) {
+    char buff[128];
+    sprintf(buff, "%s %d %d %d\n", instruction, var1Address, var2Address, resultAddress);
+    fprintf(file, buff);    
 }
