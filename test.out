@@ -1,63 +1,22 @@
 Gramatical analysis
 Depth increased to 1
 Symbol a added to the table.
-Symbol d added to the table.
 Symbol b added to the table.
 Symbol c added to the table.
-Depth increased to 2
+Tmp symbol tmp0 added to the table.
+Tmp symbol tmp1 added to the table.
+Tmp symbol tmp2 added to the table.
+Tmp symbol tmp3 added to the table.
+Tmp symbol tmp4 added to the table.
 ---------------------------
 |    Name    |    Depth   | 
 ---------------------------
 | a          | 1          |
-| d          | 1          |
-| b          | 1          |
-| c          | 1          |
----------------------------
-Depth decreased to 1
----------------------------
-|    Name    |    Depth   | 
----------------------------
-| a          | 1          |
-| d          | 1          |
 | b          | 1          |
 | c          | 1          |
 ---------------------------
 Symbol a deleted from the table.
-Symbol b deleted from the table.
-Depth decreased to 0
-Depth increased to 1
-Symbol a added to the table.
-Depth increased to 2
-Symbol c added to the table.
----------------------------
-|    Name    |    Depth   | 
----------------------------
-| d          | 1          |
-| c          | 1          |
-| a          | 1          |
-| c          | 2          |
----------------------------
 Symbol c deleted from the table.
-Depth decreased to 1
-Depth increased to 2
-Symbol b added to the table.
----------------------------
-|    Name    |    Depth   | 
----------------------------
-| d          | 1          |
-| c          | 1          |
-| a          | 1          |
-| b          | 2          |
----------------------------
-Symbol b deleted from the table.
-Depth decreased to 1
----------------------------
-|    Name    |    Depth   | 
----------------------------
-| d          | 1          |
-| c          | 1          |
-| a          | 1          |
----------------------------
-Symbol d deleted from the table.
-Symbol a deleted from the table.
+Symbol c deleted from the table.
 Depth decreased to 0
+change scope 

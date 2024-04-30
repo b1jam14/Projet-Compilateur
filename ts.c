@@ -12,6 +12,7 @@ typedef struct {
 Symbol symbolTable[MAX_SYMBOLS];
 int symbolCount = 0;
 int depth = 0;
+int tmpCount = 0;
 
 //TODO: ajouter le scope au quel appartient la variable
 void addSymbol(const char* name) {
@@ -20,11 +21,25 @@ void addSymbol(const char* name) {
         symbolTable[symbolCount].depth = depth;
         symbolCount++;
         printf( "Symbol %s added to the table.\n", name);
-        //symbolTable[symbolCount].type = type;
     }
     else{
         printf("ERREUR\n");
     }   
+}
+
+void addTmpSymbol(){
+    char tmp[20];
+    sprintf(tmp, "tmp%d", tmpCount);
+    tmpCount++;
+    if(symbolCount < MAX_SYMBOLS) {
+        strcpy(symbolTable[symbolCount].name, tmp);
+        symbolTable[symbolCount].depth = depth;
+        symbolCount++;
+        printf( "Tmp symbol %s added to the table.\n", tmp);
+    }
+    else{
+        printf("ERREUR\n");
+    }
 }
 
 void increaseDepth() {
@@ -52,6 +67,10 @@ int getSymbol(const char* name) {
     return -1;
 }
 
+int getTopStack(){
+    return symbolCount-1;
+}
+
 void deleteSymbol(const char* name) {
     for (int i = 0; i < symbolCount; i++) {
         if (strcmp(symbolTable[i].name, name) == 0) {
@@ -66,7 +85,8 @@ void deleteSymbol(const char* name) {
 }
 
 void deleteSymbolScope(){
-    for (int i = 0; i < symbolCount; i++) {
+    int nbSymbols = symbolCount;
+    for (int i = 0; i < nbSymbols; i++) {
         if (symbolTable[i].depth == depth) {
             printf("Symbol %s deleted from the table.\n", symbolTable[i].name);
             for (int j = i; j < symbolCount - 1; j++) {
@@ -78,13 +98,17 @@ void deleteSymbolScope(){
     }
 }
 
+void deleteTopStack(){
+    symbolCount--;
+}
+
 void flushTable() {
     symbolCount = 0;
     printf("Symbol table flushed.\n");
 }
 
 void printTable() {
-    printf("---------------------------\n");
+    printf("---------------------------\n");int tmpVar;
     printf("| %-10s |", "   Name");
     printf(" %-10s | \n", "   Depth");
     printf("---------------------------\n");
@@ -95,8 +119,8 @@ void printTable() {
     printf("---------------------------\n");
 }
 
-void writeASM(FILE* file,char* instruction, int var1Address, int var2Address, int resultAddress) {
+void writeASM(char* instruction, int var1, int var2, int resultAddress, FILE* file) {
     char buff[128];
-    sprintf(buff, "%s %d %d %d\n", instruction, var1Address, var2Address, resultAddress);
-    fprintf(file, "%s", buff);  
+    sprintf(buff, "%s %d %d %d\n", instruction, var1, var2, resultAddress);
+    fprintf(file, "%s", buff);
 }

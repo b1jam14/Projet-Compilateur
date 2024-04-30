@@ -3,6 +3,8 @@
 #include <stdio.h>
 #include "lex.tab.h"
 #include "ts.h"
+
+FILE* file;
 %}
 
 %code provides {
@@ -30,7 +32,7 @@ TypeFonction:
 ;
 
 Fonction:
-  {increaseDepth();} tLPAR Variables tRPAR tLBRACE Bloc tRBRACE {printTable();deleteSymbolScope();decreaseDepth();}
+  {increaseDepth();} tLPAR Variables tRPAR tLBRACE Bloc tRBRACE {printTable();deleteSymbolScope();decreaseDepth();printf("change scope \n");}
 ;
 
 Variables:
@@ -59,7 +61,7 @@ Bloc:
 ;
  
 Affectation:
-  tID tASSIGN Expression tSEMI
+  tID tASSIGN Expression tSEMI {;writeASM("COP", getSymbol($1), getTopStack(),0, file); deleteTopStack();}
 ;
 
 Declaration:
@@ -93,13 +95,13 @@ Return:
 ;
 
 Expression:
-  tID 
-  |tNB
+  tID {addTmpSymbol(); writeASM("COP", getTopStack() ,getSymbol($1), 0, file);}
+  |tNB  {addTmpSymbol(); writeASM("AFC",getTopStack(),$1,0,file);}
   |tID tLPAR Argument tRPAR
-  |Expression tADD Expression 
-  |Expression tSUB Expression
-  |Expression tMUL Expression
-  |Expression tDIV Expression
+  |Expression tADD Expression { int top = getTopStack(); deleteTopStack();writeASM("ADD", getTopStack(), getTopStack(), top, file); }
+  |Expression tSUB Expression { int top = getTopStack(); deleteTopStack();writeASM("SUB", getTopStack(), getTopStack(), top, file); }
+  |Expression tMUL Expression { int top = getTopStack(); deleteTopStack();writeASM("MUL", getTopStack(), getTopStack(), top, file); }
+  |Expression tDIV Expression { int top = getTopStack(); deleteTopStack();writeASM("DIV", getTopStack(), getTopStack(), top, file); }
   |tLPAR Expression tRPAR
 ;
 
@@ -178,6 +180,7 @@ void yyerror(const char *s) { fprintf(stderr, "%s\n", s); exit(1);}
 
 int main(void) {
   yydebug = 1;
+  file = fopen("asm.out", "w");
   printf("Gramatical analysis\n"); // yydebug=1;
   yyparse();
   return 0;

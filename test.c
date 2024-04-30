@@ -1,4 +1,14 @@
+void test(){
+  int a;
+  int b, c;
+  b = 6;
+  c=8;
+  a = b + c * 2;
+}
+/*
 int compute(int a, int d) {
+
+    a=3;
 
     int b, c = a + d * 5;
 
@@ -28,4 +38,4 @@ void main(void) {
     print(b);
 
   }
-}
+}*/

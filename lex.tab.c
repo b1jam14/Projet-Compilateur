@@ -74,7 +74,9 @@
 #include "lex.tab.h"
 #include "ts.h"
 
-#line 78 "lex.tab.c"
+FILE* file;
+
+#line 80 "lex.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -554,13 +556,13 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    23,    23,    24,    28,    29,    33,    33,    37,    38,
-      39,    43,    44,    48,    52,    53,    54,    55,    56,    57,
-      58,    62,    66,    67,    71,    72,    72,    76,    76,    76,
-      80,    81,    81,    81,    85,    85,    85,    89,    92,    96,
-      97,    98,    99,   100,   101,   102,   103,   107,   108,   112,
-     113,   117,   118,   119,   120,   121,   122,   123,   124,   125,
-     126,   130,   131,   135,   136,   137
+       0,    25,    25,    26,    30,    31,    35,    35,    39,    40,
+      41,    45,    46,    50,    54,    55,    56,    57,    58,    59,
+      60,    64,    68,    69,    73,    74,    74,    78,    78,    78,
+      82,    83,    83,    83,    87,    87,    87,    91,    94,    98,
+      99,   100,   101,   102,   103,   104,   105,   109,   110,   114,
+     115,   119,   120,   121,   122,   123,   124,   125,   126,   127,
+     128,   132,   133,   137,   138,   139
 };
 #endif
 
@@ -1209,73 +1211,115 @@ yyreduce:
   switch (yyn)
     {
   case 6: /* $@1: %empty  */
-#line 33 "lex.y"
+#line 35 "lex.y"
   {increaseDepth();}
-#line 1215 "lex.tab.c"
+#line 1217 "lex.tab.c"
     break;
 
   case 7: /* Fonction: $@1 tLPAR Variables tRPAR tLBRACE Bloc tRBRACE  */
-#line 33 "lex.y"
-                                                                {printTable();deleteSymbolScope();decreaseDepth();}
-#line 1221 "lex.tab.c"
+#line 35 "lex.y"
+                                                                {printTable();deleteSymbolScope();decreaseDepth();printf("change scope \n");}
+#line 1223 "lex.tab.c"
     break;
 
   case 13: /* Variable: tINT tID  */
-#line 48 "lex.y"
+#line 50 "lex.y"
            {addSymbol((yyvsp[0].str));}
-#line 1227 "lex.tab.c"
+#line 1229 "lex.tab.c"
+    break;
+
+  case 21: /* Affectation: tID tASSIGN Expression tSEMI  */
+#line 64 "lex.y"
+                               {;writeASM("COP", getSymbol((yyvsp[-3].str)), getTopStack(),0, file); deleteTopStack();}
+#line 1235 "lex.tab.c"
     break;
 
   case 24: /* VariableDeclaration: tID  */
-#line 71 "lex.y"
+#line 73 "lex.y"
       {addSymbol((yyvsp[0].str));}
-#line 1233 "lex.tab.c"
+#line 1241 "lex.tab.c"
     break;
 
   case 25: /* $@2: %empty  */
-#line 72 "lex.y"
+#line 74 "lex.y"
               {addSymbol((yyvsp[-1].str));}
-#line 1239 "lex.tab.c"
+#line 1247 "lex.tab.c"
     break;
 
   case 27: /* $@3: %empty  */
-#line 76 "lex.y"
+#line 78 "lex.y"
                                     {increaseDepth();}
-#line 1245 "lex.tab.c"
+#line 1253 "lex.tab.c"
     break;
 
   case 28: /* $@4: %empty  */
-#line 76 "lex.y"
+#line 78 "lex.y"
                                                             {printTable();deleteSymbolScope();decreaseDepth();}
-#line 1251 "lex.tab.c"
+#line 1259 "lex.tab.c"
     break;
 
   case 31: /* $@5: %empty  */
-#line 81 "lex.y"
+#line 83 "lex.y"
                  {increaseDepth();}
-#line 1257 "lex.tab.c"
+#line 1265 "lex.tab.c"
     break;
 
   case 32: /* $@6: %empty  */
-#line 81 "lex.y"
+#line 83 "lex.y"
                                          {printTable();deleteSymbolScope();decreaseDepth();}
-#line 1263 "lex.tab.c"
+#line 1271 "lex.tab.c"
     break;
 
   case 34: /* $@7: %empty  */
-#line 85 "lex.y"
+#line 87 "lex.y"
                                        {increaseDepth();}
-#line 1269 "lex.tab.c"
+#line 1277 "lex.tab.c"
     break;
 
   case 35: /* $@8: %empty  */
-#line 85 "lex.y"
+#line 87 "lex.y"
                                                                {printTable();deleteSymbolScope();decreaseDepth();}
-#line 1275 "lex.tab.c"
+#line 1283 "lex.tab.c"
+    break;
+
+  case 39: /* Expression: tID  */
+#line 98 "lex.y"
+      {addTmpSymbol(); writeASM("COP", getTopStack() ,getSymbol((yyvsp[0].str)), 0, file);}
+#line 1289 "lex.tab.c"
+    break;
+
+  case 40: /* Expression: tNB  */
+#line 99 "lex.y"
+        {addTmpSymbol(); writeASM("AFC",getTopStack(),(yyvsp[0].nb),0,file);}
+#line 1295 "lex.tab.c"
+    break;
+
+  case 42: /* Expression: Expression tADD Expression  */
+#line 101 "lex.y"
+                              { int top = getTopStack(); deleteTopStack();writeASM("ADD", getTopStack(), getTopStack(), top, file); }
+#line 1301 "lex.tab.c"
+    break;
+
+  case 43: /* Expression: Expression tSUB Expression  */
+#line 102 "lex.y"
+                              { int top = getTopStack(); deleteTopStack();writeASM("SUB", getTopStack(), getTopStack(), top, file); }
+#line 1307 "lex.tab.c"
+    break;
+
+  case 44: /* Expression: Expression tMUL Expression  */
+#line 103 "lex.y"
+                              { int top = getTopStack(); deleteTopStack();writeASM("MUL", getTopStack(), getTopStack(), top, file); }
+#line 1313 "lex.tab.c"
+    break;
+
+  case 45: /* Expression: Expression tDIV Expression  */
+#line 104 "lex.y"
+                              { int top = getTopStack(); deleteTopStack();writeASM("DIV", getTopStack(), getTopStack(), top, file); }
+#line 1319 "lex.tab.c"
     break;
 
 
-#line 1279 "lex.tab.c"
+#line 1323 "lex.tab.c"
 
       default: break;
     }
@@ -1468,7 +1512,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 140 "lex.y"
+#line 142 "lex.y"
 
 
 /* LANG
@@ -1510,6 +1554,7 @@ void yyerror(const char *s) { fprintf(stderr, "%s\n", s); exit(1);}
 
 int main(void) {
   yydebug = 1;
+  file = fopen("asm.out", "w");
   printf("Gramatical analysis\n"); // yydebug=1;
   yyparse();
   return 0;

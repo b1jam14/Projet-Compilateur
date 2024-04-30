@@ -1,11 +1,11 @@
-
-
 typedef struct {
     char name[20];
-    //int value;
+    int depth;
 } Symbol;
 
 void addSymbol(const char* name);
+
+void addTmpSymbol();
 
 void increaseDepth();
 
@@ -14,13 +14,22 @@ void decreaseDepth();
 int getDepth();
 
 int getSymbol(const char* name) ;
+int getTopStack();
 
 void deleteSymbol(const char* name);
-
 void deleteSymbolScope();
+void deleteTopStack();
 
 void flushTable();
 
 void printTable();
 
-void writeASM(FILE* file,char* instruction, int var1Address, int var2Address, int resultAddress);
+void setTmp(int tmp);
+void setTmpL(int tmp);
+void setTmpR(int tmp);
+
+int getTmp();
+int getTmpL();
+int getTmpR();
+
+void writeASM(char* instruction, int var1, int var2, int resultAddress, FILE* file);
