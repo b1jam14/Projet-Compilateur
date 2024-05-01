@@ -1,11 +1,29 @@
 void test(){
+  int a=8;
+  if(a){
+    a = 0;
+    if(a){
+      a=9;
+    }
+    a=7;
+  }
+}
+
+/*void test(){
+  int a=0;
+  if(a){
+    a = 6;
+  }
+}
+
+void test(){
   int a;
   int b, c;
   b = 6;
   c=8;
   a = b + c * 2;
 }
-/*
+
 int compute(int a, int d) {
 
     a=3;
@@ -24,12 +42,12 @@ int compute(int a, int d) {
 }
 
 void main(void) {
-
+  
   int a;
 
   if (a == 3) {
     int c;
-    print(a);
+    print(c); //bizzare un peu d'avoir un print et dans le yacc il y a un token tPRINT définit 
 
   } else {
 
@@ -39,3 +57,7 @@ void main(void) {
 
   }
 }*/
+
+void main(void){
+
+}

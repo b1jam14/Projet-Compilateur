@@ -32,4 +32,6 @@ int getTmp();
 int getTmpL();
 int getTmpR();
 
-void writeASM(char* instruction, int var1, int var2, int resultAddress, FILE* file);
+void writeASM(char* instruction, int var1, int var2, int resultAddress);
+void endJMF();
+void writeASMfile();

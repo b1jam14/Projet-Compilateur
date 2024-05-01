@@ -14,7 +14,9 @@ int symbolCount = 0;
 int depth = 0;
 int tmpCount = 0;
 
-//TODO: ajouter le scope au quel appartient la variable
+char* asmStack[MAX_SYMBOLS][4];
+int asmCount = 0;
+
 void addSymbol(const char* name) {
     if(symbolCount < MAX_SYMBOLS) {
         strcpy(symbolTable[symbolCount].name, name);
@@ -119,8 +121,46 @@ void printTable() {
     printf("---------------------------\n");
 }
 
-void writeASM(char* instruction, int var1, int var2, int resultAddress, FILE* file) {
+void writeASM(char instruction[3], int var1, int var2, int resultAddress) {
+    /*
     char buff[128];
     sprintf(buff, "%s %d %d %d\n", instruction, var1, var2, resultAddress);
-    fprintf(file, "%s", buff);
+    fprintf(file, "%s", buff);*/
+    asmStack[asmCount][0] = instruction;
+    asmStack[asmCount][1] = (char*)malloc(1*sizeof(char));
+    asmStack[asmCount][2] = (char*)malloc(1*sizeof(char));
+    asmStack[asmCount][3] = (char*)malloc(1*sizeof(char));
+
+    sprintf(asmStack[asmCount][1], "%d", var1);
+    if(var2==-1){asmStack[asmCount][2]="?";}else{sprintf(asmStack[asmCount][2], "%d", var2);}
+    sprintf(asmStack[asmCount][3], "%d", resultAddress);
+    
+    asmCount++;
+}
+
+void endJMF(){
+    asmStack[asmCount][0] = "NOP";
+    asmStack[asmCount][1] = "0";
+    asmStack[asmCount][2] = "0";
+    asmStack[asmCount][3] = "0";
+
+    for(int i = asmCount - 1; i >= 0; i--){
+        if ((strcmp(asmStack[i][0], "JMF") == 0) && (strcmp(asmStack[i][2], "?") == 0)){
+            char* tmp = (char*)malloc(1*sizeof(char));
+            sprintf(tmp, "%d", asmCount);
+            asmStack[i][2] = tmp;
+            break;
+        }
+    }
+
+    asmCount++;
+}
+
+void writeASMfile(){
+    printf("Writing ASM file...\n");
+    FILE* file = fopen("asm.out", "w");
+    for (int i = 0; i < asmCount; i++) {
+        fprintf(file, "%s %s %s %s\n", asmStack[i][0], asmStack[i][1], asmStack[i][2], asmStack[i][3]);
+    }
+    fclose(file);
 }

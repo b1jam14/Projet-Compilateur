@@ -4,7 +4,6 @@
 #include "lex.tab.h"
 #include "ts.h"
 
-FILE* file;
 %}
 
 %code provides {
@@ -22,7 +21,7 @@ FILE* file;
 %%
 
 Programme:
-  TypeFonction tMAIN Fonction 
+  TypeFonction tMAIN Fonction {writeASMfile();}
   |TypeFonction tID Fonction Programme 
 ;
 
@@ -32,7 +31,7 @@ TypeFonction:
 ;
 
 Fonction:
-  {increaseDepth();} tLPAR Variables tRPAR tLBRACE Bloc tRBRACE {printTable();deleteSymbolScope();decreaseDepth();printf("change scope \n");}
+  {increaseDepth();} tLPAR Variables tRPAR tLBRACE Bloc tRBRACE {deleteSymbolScope();decreaseDepth();}
 ;
 
 Variables:
@@ -58,15 +57,16 @@ Bloc:
   |While Bloc
   |Print Bloc
   |Return
+  |tID tLPAR Argument tRPAR tSEMI Bloc
 ;
  
 Affectation:
-  tID tASSIGN Expression tSEMI {;writeASM("COP", getSymbol($1), getTopStack(),0, file); deleteTopStack();}
+  tID tASSIGN Expression tSEMI {writeASM("COP", getSymbol($1), getTopStack(),0); deleteTopStack();}
 ;
 
 Declaration:
   tINT VariableDeclaration tSEMI
-  |tINT VariableDeclaration tASSIGN Expression tSEMI
+  |tINT VariableDeclaration tASSIGN Expression tSEMI {int tmpVar = getTopStack(); deleteTopStack() ;writeASM("COP", getTopStack(), tmpVar,0);}
 ;
 
 VariableDeclaration:
@@ -75,7 +75,7 @@ VariableDeclaration:
 ;
 
 If:
-  tIF tLPAR Condition tRPAR tLBRACE {increaseDepth();} Bloc {printTable();deleteSymbolScope();decreaseDepth();}tRBRACE Else
+  tIF tLPAR Condition tRPAR tLBRACE {increaseDepth();writeASM("JMF", getTopStack(), -1, 0); deleteTopStack();} Bloc {deleteSymbolScope();decreaseDepth();endJMF();}tRBRACE Else 
 ;
 
 Else:
@@ -95,13 +95,13 @@ Return:
 ;
 
 Expression:
-  tID {addTmpSymbol(); writeASM("COP", getTopStack() ,getSymbol($1), 0, file);}
-  |tNB  {addTmpSymbol(); writeASM("AFC",getTopStack(),$1,0,file);}
-  |tID tLPAR Argument tRPAR
-  |Expression tADD Expression { int top = getTopStack(); deleteTopStack();writeASM("ADD", getTopStack(), getTopStack(), top, file); }
-  |Expression tSUB Expression { int top = getTopStack(); deleteTopStack();writeASM("SUB", getTopStack(), getTopStack(), top, file); }
-  |Expression tMUL Expression { int top = getTopStack(); deleteTopStack();writeASM("MUL", getTopStack(), getTopStack(), top, file); }
-  |Expression tDIV Expression { int top = getTopStack(); deleteTopStack();writeASM("DIV", getTopStack(), getTopStack(), top, file); }
+  tID {addTmpSymbol(); writeASM("COP", getTopStack() ,getSymbol($1), 0);}
+  |tNB  {addTmpSymbol(); writeASM("AFC",getTopStack(),$1,0);}
+  |tID tLPAR Argument tRPAR  
+  |Expression tADD Expression { int top = getTopStack(); deleteTopStack();writeASM("ADD", getTopStack(), getTopStack(), top); }
+  |Expression tSUB Expression { int top = getTopStack(); deleteTopStack();writeASM("SUB", getTopStack(), getTopStack(), top); }
+  |Expression tMUL Expression { int top = getTopStack(); deleteTopStack();writeASM("MUL", getTopStack(), getTopStack(), top); }
+  |Expression tDIV Expression { int top = getTopStack(); deleteTopStack();writeASM("DIV", getTopStack(), getTopStack(), top); }
   |tLPAR Expression tRPAR
 ;
 
@@ -126,10 +126,11 @@ Condition:
   |IDNB tOR IDNB ConditionSuite
   |tNOT tID ConditionSuite
   |tNOT tLPAR Condition tRPAR ConditionSuite
+  |IDNB
 ;
 
 IDNB:
-  tID
+  tID {addTmpSymbol();writeASM("COP", getTopStack(), getSymbol($1), 0);}
   |tNB
 ;
 
@@ -180,7 +181,6 @@ void yyerror(const char *s) { fprintf(stderr, "%s\n", s); exit(1);}
 
 int main(void) {
   yydebug = 1;
-  file = fopen("asm.out", "w");
   printf("Gramatical analysis\n"); // yydebug=1;
   yyparse();
   return 0;
