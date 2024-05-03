@@ -131,29 +131,37 @@ void writeASM(char instruction[3], int var1, int var2, int resultAddress) {
     asmStack[asmCount][2] = (char*)malloc(1*sizeof(char));
     asmStack[asmCount][3] = (char*)malloc(1*sizeof(char));
 
-    sprintf(asmStack[asmCount][1], "%d", var1);
+    if(var1==-1){asmStack[asmCount][1]="?";}else{sprintf(asmStack[asmCount][1], "%d", var1);}
     if(var2==-1){asmStack[asmCount][2]="?";}else{sprintf(asmStack[asmCount][2], "%d", var2);}
     sprintf(asmStack[asmCount][3], "%d", resultAddress);
     
     asmCount++;
 }
 
-void endJMF(){
+void endJump(char* type){
     asmStack[asmCount][0] = "NOP";
     asmStack[asmCount][1] = "0";
     asmStack[asmCount][2] = "0";
     asmStack[asmCount][3] = "0";
 
     for(int i = asmCount - 1; i >= 0; i--){
-        if ((strcmp(asmStack[i][0], "JMF") == 0) && (strcmp(asmStack[i][2], "?") == 0)){
+        if ((strcmp(asmStack[i][0], type) == 0) && ((strcmp(asmStack[i][1], "?") == 0)||(strcmp(asmStack[i][2], "?") == 0))){
             char* tmp = (char*)malloc(1*sizeof(char));
             sprintf(tmp, "%d", asmCount);
             asmStack[i][2] = tmp;
             break;
         }
     }
-
     asmCount++;
+}
+
+int getJumpEmpty(){
+    for(int i = asmCount - 1; i >= 0; i--){
+        if (strcmp(asmStack[i][2], "?") == 0){
+            return i;
+            break;
+        }
+    }
 }
 
 void writeASMfile(){

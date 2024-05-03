@@ -1265,7 +1265,7 @@ yyreduce:
 
   case 29: /* $@4: %empty  */
 #line 78 "lex.y"
-                                                                                                                    {deleteSymbolScope();decreaseDepth();endJMF();}
+                                                                                                                    {deleteSymbolScope();decreaseDepth();writeASM("JMP",-1,0,0);endJump("JMF");}
 #line 1270 "lex.tab.c"
     break;
 
@@ -1277,19 +1277,19 @@ yyreduce:
 
   case 33: /* $@6: %empty  */
 #line 83 "lex.y"
-                                         {printTable();deleteSymbolScope();decreaseDepth();}
+                                         {printTable();deleteSymbolScope();decreaseDepth();endJump("JMP");}
 #line 1282 "lex.tab.c"
     break;
 
   case 35: /* $@7: %empty  */
 #line 87 "lex.y"
-                                       {increaseDepth();}
+                                       {increaseDepth();writeASM("JMF", getTopStack(),-1,0);}
 #line 1288 "lex.tab.c"
     break;
 
   case 36: /* $@8: %empty  */
 #line 87 "lex.y"
-                                                               {printTable();deleteSymbolScope();decreaseDepth();}
+                                                                                                   {printTable();deleteSymbolScope();decreaseDepth();writeASM("JMP",getJumpEmpty()-1,0,0);endJump("JMF");}
 #line 1294 "lex.tab.c"
     break;
 

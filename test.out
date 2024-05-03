@@ -1,17 +1,20 @@
 Gramatical analysis
 Depth increased to 1
-Symbol a added to the table.
+Symbol i added to the table.
 Tmp symbol tmp0 added to the table.
 Tmp symbol tmp1 added to the table.
 Depth increased to 2
 Tmp symbol tmp2 added to the table.
 Tmp symbol tmp3 added to the table.
-Depth increased to 3
-Tmp symbol tmp4 added to the table.
-Depth decreased to 2
-Tmp symbol tmp5 added to the table.
+---------------------------
+|    Name    |    Depth   | 
+---------------------------
+| i          | 1          |
+| tmp1       | 1          |
+---------------------------
 Depth decreased to 1
-Symbol a deleted from the table.
+Symbol i deleted from the table.
+Symbol tmp1 deleted from the table.
 Depth decreased to 0
 Depth increased to 1
 Depth decreased to 0

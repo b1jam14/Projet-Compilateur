@@ -1,4 +1,4 @@
-void test(){
+/*void test(){
   int a=8;
   if(a){
     a = 0;
@@ -9,10 +9,12 @@ void test(){
   }
 }
 
-/*void test(){
+void test(){
   int a=0;
   if(a){
     a = 6;
+  }else{
+    a=0;
   }
 }
 
@@ -57,6 +59,13 @@ void main(void) {
 
   }
 }*/
+
+void test(){
+  int i = 0;
+  while(i<10){
+    i=i+1;
+  }
+}
 
 void main(void){
 

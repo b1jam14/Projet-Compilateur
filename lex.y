@@ -75,16 +75,16 @@ VariableDeclaration:
 ;
 
 If:
-  tIF tLPAR Condition tRPAR tLBRACE {increaseDepth();writeASM("JMF", getTopStack(), -1, 0); deleteTopStack();} Bloc {deleteSymbolScope();decreaseDepth();endJMF();}tRBRACE Else 
+  tIF tLPAR Condition tRPAR tLBRACE {increaseDepth();writeASM("JMF", getTopStack(), -1, 0); deleteTopStack();} Bloc {deleteSymbolScope();decreaseDepth();writeASM("JMP",-1,0,0);endJump("JMF");}tRBRACE Else 
 ;
 
 Else:
   %empty
-  |tELSE tLBRACE {increaseDepth();} Bloc {printTable();deleteSymbolScope();decreaseDepth();} tRBRACE
+  |tELSE tLBRACE {increaseDepth();} Bloc {printTable();deleteSymbolScope();decreaseDepth();endJump("JMP");} tRBRACE
 ;
 
 While:
-  tWHILE tLPAR Condition tRPAR tLBRACE {increaseDepth();} Bloc {printTable();deleteSymbolScope();decreaseDepth();} tRBRACE 
+  tWHILE tLPAR Condition tRPAR tLBRACE {increaseDepth();writeASM("JMF", getTopStack(),-1,0);} Bloc {printTable();deleteSymbolScope();decreaseDepth();writeASM("JMP",getJumpEmpty()-1,0,0);endJump("JMF");} tRBRACE 
 ;
 
 Print:
