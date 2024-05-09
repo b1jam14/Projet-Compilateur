@@ -1250,7 +1250,7 @@ yyreduce:
 
   case 9: /* Fonction: $@3 tLPAR Variables tRPAR tLBRACE Bloc tRBRACE  */
 #line 34 "lex.y"
-                                                                {printTable();writeASM("RET",0,0,0);deleteSymbolScope();decreaseDepth();}
+                                                                {writeASM("RET",0,0,0);deleteSymbolScope();decreaseDepth();}
 #line 1255 "lex.tab.c"
     break;
 
@@ -1328,7 +1328,7 @@ yyreduce:
 
   case 41: /* Return: tRETURN Expression tSEMI  */
 #line 94 "lex.y"
-                           {writeASM("COP", getSymbol("?VAL"),getTopStack(),0);deleteTopStack();writeASM("RET",0,0,0);}
+                           {writeASM("COP", getSymbol("!VAL"),getTopStack(),0);deleteTopStack();writeASM("RET",0,0,0);}
 #line 1333 "lex.tab.c"
     break;
 
@@ -1352,7 +1352,7 @@ yyreduce:
 
   case 45: /* Expression: tID $@11 tLPAR Argument tRPAR  */
 #line 100 "lex.y"
-                                                                         {int adr=getSymbol("!VAL"); deleteSymbolTmpScope(); deleteTopStack(); deleteTopStack();addTmpSymbol();writeASM("PUSH",getTopStack(),0,0);writeASM("CALL",getFonctionAddress((yyvsp[-4].str)),0,0);writeASM("POP",getTopStack(),0,0);writeASM("COP",getTopStack(),adr,0);printTable();}
+                                                                         {int adr=getSymbol("!VAL"); deleteSymbolTmpScope(); deleteTopStack(); deleteTopStack();printTable();addTmpSymbol();writeASM("PUSH",getTopStack(),0,0);writeASM("CALL",getFonctionAddress((yyvsp[-4].str)),0,0);writeASM("POP",getTopStack(),0,0);writeASM("COP",getTopStack(),adr,0);}
 #line 1357 "lex.tab.c"
     break;
 

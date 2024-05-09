@@ -12,35 +12,24 @@ Symbol !VAL added to the table.
 Tmp symbol tmp1 added to the table.
 Tmp symbol tmp2 added to the table.
 Symbol tmp1 deleted from the table.
-Tmp symbol tmp3 added to the table.
 ---------------------------
 |    Name    |    Depth   | 
 ---------------------------
 | ?ADR       | 1          |
 | ?VAL       | 1          |
 | a          | 2          |
-| tmp3       | 3          |
 ---------------------------
 ---------------------------
 |    Name    |    Begin   | 
 ---------------------------
 | fact       | 1          |
 ---------------------------
+Tmp symbol tmp3 added to the table.
 Tmp symbol tmp4 added to the table.
+Symbol !VAL not found 
 Depth decreased to 2
 Tmp symbol tmp5 added to the table.
----------------------------
-|    Name    |    Depth   | 
----------------------------
-| ?ADR       | 1          |
-| ?VAL       | 1          |
-| a          | 2          |
----------------------------
----------------------------
-|    Name    |    Begin   | 
----------------------------
-| fact       | 1          |
----------------------------
+Symbol !VAL not found 
 Symbol a deleted from the table.
 Depth decreased to 1
 Fonction main added to the table.
@@ -49,31 +38,19 @@ Symbol !ADR added to the table.
 Symbol !VAL added to the table.
 Tmp symbol tmp6 added to the table.
 Symbol tmp6 deleted from the table.
+---------------------------
+|    Name    |    Depth   | 
+---------------------------
+| ?ADR       | 1          |
+| ?VAL       | 1          |
+---------------------------
+---------------------------
+|    Name    |    Begin   | 
+---------------------------
+| fact       | 1          |
+| main       | 19         |
+---------------------------
 Tmp symbol tmp7 added to the table.
----------------------------
-|    Name    |    Depth   | 
----------------------------
-| ?ADR       | 1          |
-| ?VAL       | 1          |
-| tmp7       | 2          |
----------------------------
----------------------------
-|    Name    |    Begin   | 
----------------------------
-| fact       | 1          |
-| main       | 19         |
----------------------------
----------------------------
-|    Name    |    Depth   | 
----------------------------
-| ?ADR       | 1          |
-| ?VAL       | 1          |
----------------------------
----------------------------
-|    Name    |    Begin   | 
----------------------------
-| fact       | 1          |
-| main       | 19         |
----------------------------
+Symbol !VAL not found 
 Depth decreased to 1
 Writing ASM file...

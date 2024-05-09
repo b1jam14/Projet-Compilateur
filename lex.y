@@ -31,7 +31,7 @@ TypeFonction:
 ;
 
 Fonction:
-  {increaseDepth();} tLPAR Variables tRPAR tLBRACE Bloc tRBRACE {printTable();writeASM("RET",0,0,0);deleteSymbolScope();decreaseDepth();}
+  {increaseDepth();} tLPAR Variables tRPAR tLBRACE Bloc tRBRACE {writeASM("RET",0,0,0);deleteSymbolScope();decreaseDepth();}
 ;
 
 Variables:
@@ -91,13 +91,13 @@ Print:
   tPRINT tLPAR tID tRPAR tSEMI
 
 Return:
-  tRETURN Expression tSEMI {writeASM("COP", getSymbol("?VAL"),getTopStack(),0);deleteTopStack();writeASM("RET",0,0,0);}
+  tRETURN Expression tSEMI {writeASM("COP", getSymbol("!VAL"),getTopStack(),0);deleteTopStack();writeASM("RET",0,0,0);}
 ;
 
 Expression:
   tID {addTmpSymbol(); writeASM("COP", getTopStack() ,getSymbol($1), 0);}
   |tNB  {addTmpSymbol(); writeASM("AFC",getTopStack(),$1,0);}
-  |tID {addReturnAddress("!");addReturnValue("!");} tLPAR Argument tRPAR {int adr=getSymbol("!VAL"); deleteSymbolTmpScope(); deleteTopStack(); deleteTopStack();addTmpSymbol();writeASM("PUSH",getTopStack(),0,0);writeASM("CALL",getFonctionAddress($1),0,0);writeASM("POP",getTopStack(),0,0);writeASM("COP",getTopStack(),adr,0);printTable();} 
+  |tID {addReturnAddress("!");addReturnValue("!");} tLPAR Argument tRPAR {int adr=getSymbol("!VAL"); deleteSymbolTmpScope(); deleteTopStack(); deleteTopStack();addTmpSymbol();writeASM("PUSH",getTopStack(),0,0);writeASM("CALL",getFonctionAddress($1),0,0);writeASM("POP",getTopStack(),0,0);writeASM("COP",getTopStack(),adr,0);} 
   |Expression tADD Expression { int top = getTopStack(); deleteTopStack();writeASM("ADD", getTopStack(), getTopStack(), top); }
   |Expression tSUB Expression { int top = getTopStack(); deleteTopStack();writeASM("SUB", getTopStack(), getTopStack(), top); }
   |Expression tMUL Expression { int top = getTopStack(); deleteTopStack();writeASM("MUL", getTopStack(), getTopStack(), top); }
