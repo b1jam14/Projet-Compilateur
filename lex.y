@@ -21,8 +21,8 @@
 %%
 
 Programme:
-  TypeFonction tMAIN Fonction {writeASMfile();}
-  |TypeFonction tID Fonction Programme 
+  TypeFonction tMAIN {addFonction("main");endJump("JMP");} Fonction {writeASM("NOP",0,0,0);writeASMfile();}
+  |TypeFonction tID {increaseDepth();addFonction($2);addReturnAddress("?");addReturnValue("?");} Fonction Programme 
 ;
 
 TypeFonction:
@@ -31,7 +31,7 @@ TypeFonction:
 ;
 
 Fonction:
-  {increaseDepth();} tLPAR Variables tRPAR tLBRACE Bloc tRBRACE {deleteSymbolScope();decreaseDepth();}
+  {increaseDepth();} tLPAR Variables tRPAR tLBRACE Bloc tRBRACE {printTable();writeASM("RET",0,0,0);deleteSymbolScope();decreaseDepth();}
 ;
 
 Variables:
@@ -75,29 +75,29 @@ VariableDeclaration:
 ;
 
 If:
-  tIF tLPAR Condition tRPAR tLBRACE {increaseDepth();writeASM("JMF", getTopStack(), -1, 0); deleteTopStack();} Bloc {deleteSymbolScope();decreaseDepth();writeASM("JMP",-1,0,0);endJump("JMF");}tRBRACE Else 
+  tIF tLPAR Condition tRPAR tLBRACE {increaseDepth();writeASM("JMF", getTopStack(), -1, 0); deleteTopStack();} Bloc {deleteSymbolScope();decreaseDepth();}tRBRACE Else 
 ;
 
 Else:
-  %empty
-  |tELSE tLBRACE {increaseDepth();} Bloc {printTable();deleteSymbolScope();decreaseDepth();endJump("JMP");} tRBRACE
+  %empty {endJump("JMF");}
+  |tELSE tLBRACE {writeASM("JMP",-1,0,0);endJump("JMF");increaseDepth();} Bloc {deleteSymbolScope();decreaseDepth();endJump("JMP");} tRBRACE
 ;
 
 While:
-  tWHILE tLPAR Condition tRPAR tLBRACE {increaseDepth();writeASM("JMF", getTopStack(),-1,0);} Bloc {printTable();deleteSymbolScope();decreaseDepth();writeASM("JMP",getJumpEmpty()-1,0,0);endJump("JMF");} tRBRACE 
+  tWHILE tLPAR Condition tRPAR tLBRACE {increaseDepth();writeASM("JMF", getTopStack(),-1,0);} Bloc {deleteSymbolScope();decreaseDepth();writeASM("JMP",getJumpEmpty()-1,0,0);endJump("JMF");} tRBRACE 
 ;
 
 Print:
   tPRINT tLPAR tID tRPAR tSEMI
 
 Return:
-  tRETURN tID tSEMI
+  tRETURN Expression tSEMI {writeASM("COP", getSymbol("?VAL"),getTopStack(),0);deleteTopStack();writeASM("RET",0,0,0);}
 ;
 
 Expression:
   tID {addTmpSymbol(); writeASM("COP", getTopStack() ,getSymbol($1), 0);}
   |tNB  {addTmpSymbol(); writeASM("AFC",getTopStack(),$1,0);}
-  |tID tLPAR Argument tRPAR  
+  |tID {addReturnAddress("!");addReturnValue("!");} tLPAR Argument tRPAR {int adr=getSymbol("!VAL"); deleteSymbolTmpScope(); deleteTopStack(); deleteTopStack();addTmpSymbol();writeASM("PUSH",getTopStack(),0,0);writeASM("CALL",getFonctionAddress($1),0,0);writeASM("POP",getTopStack(),0,0);writeASM("COP",getTopStack(),adr,0);printTable();} 
   |Expression tADD Expression { int top = getTopStack(); deleteTopStack();writeASM("ADD", getTopStack(), getTopStack(), top); }
   |Expression tSUB Expression { int top = getTopStack(); deleteTopStack();writeASM("SUB", getTopStack(), getTopStack(), top); }
   |Expression tMUL Expression { int top = getTopStack(); deleteTopStack();writeASM("MUL", getTopStack(), getTopStack(), top); }
@@ -108,6 +108,7 @@ Expression:
 Argument:
   %empty
   |IDNB ArgumentNext
+  |Expression ArgumentNext
 ;
 
 ArgumentNext: 
@@ -131,7 +132,7 @@ Condition:
 
 IDNB:
   tID {addTmpSymbol();writeASM("COP", getTopStack(), getSymbol($1), 0);}
-  |tNB
+  |tNB {addTmpSymbol();writeASM("AFC", getTopStack(), $1,0);}
 ;
 
 ConditionSuite:
@@ -182,6 +183,7 @@ void yyerror(const char *s) { fprintf(stderr, "%s\n", s); exit(1);}
 int main(void) {
   yydebug = 1;
   printf("Gramatical analysis\n"); // yydebug=1;
+  writeASM("JMP",-1,0,0);
   yyparse();
   return 0;
 }

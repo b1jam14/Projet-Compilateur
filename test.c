@@ -1,11 +1,21 @@
-/*void test(){
+/*int test(int a){
+  
+	if(a){
+		return fact(a-1)*a;
+	}
+	return 1;
+
+}
+
+
+void test(int d){
   int a=8;
   if(a){
-    a = 0;
-    if(a){
+    int b = 0;
+    if(b){
       a=9;
     }
-    a=7;
+    int c = 0;
   }
 }
 
@@ -58,7 +68,7 @@ void main(void) {
     print(b);
 
   }
-}*/
+}
 
 void test(){
   int i = 0;
@@ -66,7 +76,14 @@ void test(){
     i=i+1;
   }
 }
+*/
+int fact(int a){
+  if(a){
+    return fact(a-1)*a;
+  }
+  return 1;
+}
 
-void main(void){
-
+int main(void){
+  return fact(2);
 }
