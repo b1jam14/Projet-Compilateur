@@ -83,8 +83,10 @@ extern int yydebug;
     tNOT = 284,                    /* tNOT  */
     tSEMI = 285,                   /* tSEMI  */
     tCOMMA = 286,                  /* tCOMMA  */
-    tNB = 287,                     /* tNB  */
-    tID = 288                      /* tID  */
+    tESPER = 287,                  /* tESPER  */
+    tCONST = 288,                  /* tCONST  */
+    tNB = 289,                     /* tNB  */
+    tID = 290                      /* tID  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -96,7 +98,7 @@ union YYSTYPE
 #line 14 "lex.y"
  int nb; char str[16]; 
 
-#line 100 "lex.tab.h"
+#line 102 "lex.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -116,6 +118,6 @@ int yyparse (void);
   int yylex();
   void yyerror(const char *s);
 
-#line 120 "lex.tab.h"
+#line 122 "lex.tab.h"
 
 #endif /* !YY_YY_LEX_TAB_H_INCLUDED  */

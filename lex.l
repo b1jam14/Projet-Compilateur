@@ -39,29 +39,12 @@
 "!"					{return tNOT;}
 ";"					{return tSEMI;}
 ","					{return tCOMMA;}
+"&"					{return tESPER;}
+"const"				{return tCONST;}
 
-[a-zA-Z][a-zA-Z0-9]*	{strcpy(yylval.str, yytext);if(strlen(yytext)<15){return tID;}else{return tERROR;}}
+[a-zA-Z][a-zA-Z0-9_]*	{strcpy(yylval.str, yytext);if(strlen(yytext)<15){return tID;}else{return tERROR;}}
 "0x"[0-9]*				{yylval.nb=atoi(yytext);return tNB;}
 [0-9]*					{yylval.nb=atoi(yytext);return tNB;}
 
-.	{return tERROR;}
+.					{return tERROR;}
 %%
-/**
-int main(int argc, char **argv){
-
-if (argc != 2 ){
-	fprintf(stderr, "usage %s filename", argv[0]);
-	exit(1);
-}
-
-yyin = fopen(argv[1], "r;
-if (!yyin){
-	fprintf(stderr, "invalid filename: %s", argv[1]);
-	exit(2);
-}
-
-yylex();
-fclose(yyin);
-return 0;
-}
-**/

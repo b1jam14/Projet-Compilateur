@@ -73,17 +73,21 @@ void main(void) {
 void test(){
   int i = 0;
   while(i<10){
-    i=i+1;
-  }
-}
-*/
-int fact(int a){
-  if(a){
-    return fact(a-1)*a;
-  }
-  return 1;
-}
+    i=i+1;\usepackage{silence}
+  return fact(2);
+}*/
+
 
 int main(void){
-  return fact(2);
+  
+  int a,*c,b=8;
+  c=&b;
+  const int aaa;
+  
+  if(1==1){
+    a=3;
+    print(a);
+  }else{
+    print(a);
+  }
 }

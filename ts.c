@@ -210,6 +210,40 @@ void printTable() {
     printf("---------------------------\n");
 }
 
+int instrToCode(char instruction[3]){
+    if(strcmp(instruction,"ADD")==0){
+        return 1;
+    }else if(strcmp(instruction,"MUL")==0){
+        return 2;
+    }else if(strcmp(instruction,"SOU")==0){
+        return 3;
+    }else if(strcmp(instruction,"DIV")==0){
+        return 4;
+    }else if(strcmp(instruction,"COP")==0){
+        return 5;
+    }else if(strcmp(instruction,"AFC")==0){
+        return 6;
+    }else if(strcmp(instruction,"JMP")==0){
+        return 7;
+    }else if(strcmp(instruction,"JMF")==0){
+        return 8;
+    }else if(strcmp(instruction,"INF")==0){
+        return 9;
+    }else if(strcmp(instruction,"SUP")==0){
+        return 10;
+    }else if(strcmp(instruction,"EQU")==0){
+        return 11;
+    }else if(strcmp(instruction,"PRI")==0){
+        return 12;
+    }else if(strcmp(instruction,"RET")==0){
+        return 13;
+    }else if(strcmp(instruction,"NOP")==0){
+        return 14;
+    }
+    
+    return 0;
+}
+
 void writeASM(char instruction[3], int var1, int var2, int resultAddress) {
     asmStack[asmCount][0] = instruction;
     asmStack[asmCount][1] = (char*)malloc(1*sizeof(char));
@@ -258,7 +292,8 @@ void writeASMfile(){
     printf("Writing ASM file...\n");
     FILE* file = fopen("asm.out", "w");
     for (int i = 0; i < asmCount; i++) {
-        fprintf(file, "%s %s %s %s\n", asmStack[i][0], asmStack[i][1], asmStack[i][2], asmStack[i][3]);
+        //fprintf(file, "%s %s %s %s\n", asmStack[i][0], asmStack[i][1], asmStack[i][2], asmStack[i][3]);
+        fprintf(file, "%d %s %s %s\n", instrToCode(asmStack[i][0]), asmStack[i][1], asmStack[i][2], asmStack[i][3]);
     }
     fclose(file);
 }

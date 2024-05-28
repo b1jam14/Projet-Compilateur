@@ -12,7 +12,7 @@
 }
 
 %union { int nb; char str[16]; }
-%token tMAIN tINT tLPAR tVOID tRPAR tERROR tLBRACE tRBRACE tIF tELSE tWHILE tPRINT tRETURN tADD tSUB tMUL tDIV tLT tGT tNE tEQ tLE tGE tASSIGN tAND tOR tNOT tSEMI tCOMMA 
+%token tMAIN tINT tLPAR tVOID tRPAR tERROR tLBRACE tRBRACE tIF tELSE tWHILE tPRINT tRETURN tADD tSUB tMUL tDIV tLT tGT tNE tEQ tLE tGE tASSIGN tAND tOR tNOT tSEMI tCOMMA tESPER tCONST
 %token <nb> tNB
 %token <str> tID
 %left tADD tSUB
@@ -47,6 +47,8 @@ VariablesNext:
 
 Variable :
   tINT tID {addSymbol($2);}
+  |tINT tMUL tID {addSymbol($3);}
+  |tCONST tINT tID {addSymbol($3);}
 ;
 
 Bloc:
@@ -65,14 +67,25 @@ Affectation:
 ;
 
 Declaration:
-  tINT VariableDeclaration tSEMI
-  |tINT VariableDeclaration tASSIGN Expression tSEMI {int tmpVar = getTopStack(); deleteTopStack() ;writeASM("COP", getTopStack(), tmpVar,0);}
+  TypeVariable tID {addSymbol($2);} VariableDeclaration
+;
+
+TypeVariable:
+  tINT
+  |tINT tMUL
+  |tCONST tINT
 ;
 
 VariableDeclaration:
-  tID {addSymbol($1);}
-  |tID tCOMMA {addSymbol($1);} VariableDeclaration 
+  %empty
+  |tCOMMA VariableSuite
+  |tASSIGN Expression {int tmpVar = getTopStack(); deleteTopStack(); writeASM("COP", getTopStack(), tmpVar,0);} VariableDeclaration
+  |tSEMI
 ;
+
+VariableSuite:
+  tID {addSymbol($1);} VariableDeclaration
+  |tMUL tID {addSymbol($2);} VariableDeclaration
 
 If:
   tIF tLPAR Condition tRPAR tLBRACE {increaseDepth();writeASM("JMF", getTopStack(), -1, 0); deleteTopStack();} Bloc {deleteSymbolScope();decreaseDepth();}tRBRACE Else 
@@ -88,7 +101,8 @@ While:
 ;
 
 Print:
-  tPRINT tLPAR tID tRPAR tSEMI
+  tPRINT tLPAR tID tRPAR tSEMI {writeASM("PRI",getSymbol($3),0,0);}
+  |tPRINT tLPAR tNB tRPAR tSEMI {writeASM("PRI",$3,0,0);}
 
 Return:
   tRETURN Expression tSEMI {writeASM("COP", getSymbol("!VAL"),getTopStack(),0);deleteTopStack();writeASM("RET",0,0,0);}
@@ -103,6 +117,7 @@ Expression:
   |Expression tMUL Expression { int top = getTopStack(); deleteTopStack();writeASM("MUL", getTopStack(), getTopStack(), top); }
   |Expression tDIV Expression { int top = getTopStack(); deleteTopStack();writeASM("DIV", getTopStack(), getTopStack(), top); }
   |tLPAR Expression tRPAR
+  |tESPER tID
 ;
 
 Argument:
@@ -117,10 +132,10 @@ ArgumentNext:
 ;
 
 Condition:
-  IDNB tEQ IDNB ConditionSuite
+  IDNB tEQ IDNB {int var1=getTopStack(); int var2=getTopStack(); addTmpSymbol(); writeASM("EQU", getTopStack(), var1, var2);} ConditionSuite 
   |IDNB tNE IDNB ConditionSuite
-  |IDNB tLT IDNB ConditionSuite
-  |IDNB tGT IDNB ConditionSuite
+  |IDNB tLT IDNB {int var1=getTopStack(); int var2=getTopStack(); addTmpSymbol(); writeASM("INF", getTopStack(), var1, var2);} ConditionSuite
+  |IDNB tGT IDNB {int var1=getTopStack(); int var2=getTopStack(); addTmpSymbol(); writeASM("SUP", getTopStack(), var1, var2);}ConditionSuite
   |IDNB tLE IDNB ConditionSuite
   |IDNB tGE IDNB ConditionSuite
   |IDNB tAND IDNB ConditionSuite
@@ -142,41 +157,6 @@ ConditionSuite:
 ;
 
 %%
-
-/* LANG
-
-a
-a,a
-a,a,a
-...
-*/
-
-/*
-e|a (,a)*
-    ^^^^^
-       B
-*/
-
-/*
-A -> %empty
-A -> a B
-B -> %empty
-B -> ,a B
-
-
-
-
-Programme:
-  Fonction tVOID tMAIN tLPAR Variables tRPAR tLBRACE Contenu tRBRACE 
-  |Fonction tINT tMAIN tLPAR Variables tRPAR tLBRACE Contenu tRBRACE
-;
-
-Fonction:
-  %empty
-  |tVOID tID tLPAR Variables tRPAR tLBRACE Contenu tRBRACE Fonction
-  |tINT tID tLPAR Variables tRPAR tLBRACE Contenu tRBRACE Fonction
-  ;
-*/
 
 void yyerror(const char *s) { fprintf(stderr, "%s\n", s); exit(1);}
 
