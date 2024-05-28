@@ -239,6 +239,10 @@ int instrToCode(char instruction[3]){
         return 13;
     }else if(strcmp(instruction,"NOP")==0){
         return 14;
+    }else if(strcmp(instruction,"LOAD")==0){
+        return 15;
+    }else if(strcmp(instruction,"STORE")==0){
+        return 16;
     }
     
     return 0;

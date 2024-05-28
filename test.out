@@ -1,6 +1,14 @@
 Gramatical analysis
-Fonction main added to the table.
 Depth increased to 1
+Fonction test added to the table.
+Symbol ?ADR added to the table.
+Symbol ?VAL added to the table.
+Depth increased to 2
+Symbol a added to the table.
+Symbol a deleted from the table.
+Depth decreased to 1
+Fonction main added to the table.
+Depth increased to 2
 Symbol a added to the table.
 Symbol c added to the table.
 Symbol b added to the table.
@@ -9,15 +17,15 @@ Symbol aaa added to the table.
 Tmp symbol tmp1 added to the table.
 Tmp symbol tmp2 added to the table.
 Tmp symbol tmp3 added to the table.
-Depth increased to 2
+Depth increased to 3
 Tmp symbol tmp4 added to the table.
-Depth decreased to 1
-Depth increased to 2
-Depth decreased to 1
+Depth decreased to 2
+Depth increased to 3
+Depth decreased to 2
 Symbol a deleted from the table.
 Symbol aaa deleted from the table.
 Symbol tmp2 deleted from the table.
 Symbol tmp2 deleted from the table.
 Symbol tmp2 deleted from the table.
-Depth decreased to 0
+Depth decreased to 1
 Writing ASM file...

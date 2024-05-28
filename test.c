@@ -77,6 +77,10 @@ void test(){
   return fact(2);
 }*/
 
+void test(const int a){
+  print(a);
+}
+
 
 int main(void){
   
